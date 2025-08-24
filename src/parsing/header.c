@@ -1,5 +1,5 @@
-#include "cub3d.h"
-	#include "parser.h"
+#include "cub3D.h"
+#include "parser.h"
 #include "error.h"
 
 static bool	parse_map_line(
@@ -42,7 +42,7 @@ bool	trim_path(const char *src, char **dst)
 	return (true);
 }
 
-bool	parse_header_line(t_cub *out, char *line)
+bool	parse_header_line(t_game *out, char *line)
 {
 	int		i;
 
@@ -77,7 +77,7 @@ static bool is_header_prefix(const char *line)
 	return (false);
 }
 
-bool	parse_lines(t_alloc *a, int fd, t_cub *out)
+bool	parse_lines(t_alloc *a, int fd, t_game *out)
 {
 	char	*line;
 	bool	in_map;

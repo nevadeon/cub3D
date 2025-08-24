@@ -2,8 +2,7 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include "cub3d.h"
-#include "error.h"
+#include "cub3D.h"
 
 static bool	has_cub_extension(const char *s)
 {
