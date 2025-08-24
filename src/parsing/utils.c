@@ -1,4 +1,4 @@
-#include "cub3d.h"
+#include "cub3D.h"
 #include "parser.h"
 
 int	skip_spaces(const char *s)

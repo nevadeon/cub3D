@@ -1,30 +1,32 @@
 NAME := cub3D
 
-# Compiler, flags and args
 CC := cc
-CFLAGS = -Wall -Wextra -Werror -I$(INC_DIR) -g
-CFLAGS += $(foreach dir, $(shell find $(INC_DIR) -type d), -I$(dir))
-LDFLAGS =
+CFLAGS = -Wall -Wextra -I$(INC_PATH) -g
+CFLAGS += $(foreach dir, $(shell find $(INC_PATH) -type d), -I$(PATH))
+LDFLAGS = -lXext -lX11 -lm -lz -I.
 GDB_FLAGS := --quiet --args
 
-# Directories
-INC_DIR := include
-SRC_DIR := src
-OBJ_DIR := obj
+MLX_PATH := minilibx-linux
+INC_PATH := include
+SRC_PATH := src
+OBJ_PATH := obj
 
-# Sources and objects
-SRC := $(shell find $(SRC_DIR) -type f -name "*.c")
-OBJ := $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
+SRC := $(shell find $(SRC_PATH) -type f -name "*.c")
+OBJ := $(patsubst $(SRC_PATH)/%.c, $(OBJ_PATH)/%.o, $(SRC))
 
 # ============================================================================ #
 #        Main rules                                                            #
 # ============================================================================ #
+
 all: $(NAME)
 
-$(NAME): $(OBJ)
-	@$(CC) $(CFLAGS) -o $@ $(OBJ) $(LDFLAGS)
+$(MLX_PATH)/libmlx.a:
+	$(MAKE) -C $(MLX_PATH)
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+$(NAME): $(OBJ) $(MLX_PATH)/libmlx.a
+	$(CC) $(CFLAGS) ${LDFLAGS} -o $@ $^
+
+$(OBJ_PATH)/%.o: $(SRC_PATH)/%.c
 	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) -c $< -o $@
 	@./update_progress_bar.sh "Compiling $(NAME):"
@@ -32,7 +34,7 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 re: fclean all
 
 clean:
-	@rm -rf $(OBJ_DIR)
+	@rm -rf $(OBJ_PATH)
 
 fclean: clean
 	@rm -f $(NAME)
@@ -54,4 +56,8 @@ test-invalid-maps: all
 		./$(NAME) "$$f" && echo "UNEXPECTED PASS"; echo;\
 	done;
 
-.PHONY: all re clean fclean valgrind gdb test-invalid-maps
+test: CFLAGS+=-fsanitize=address
+test: LDFLAGS+=-fsanitize=address
+test: re
+
+.PHONY: all re clean fclean valgrind gdb test test-invalid-maps

@@ -1,4 +1,4 @@
-#include "cub3d.h"
+#include "cub3D.h"
 #include "parser.h"
 #include "error.h"
 
@@ -14,7 +14,7 @@ static void	init_offsets(int off[4][2])
 	off[3][1] = -1;
 }
 
-static bool	check_neighbors(t_cub *c, int x, int y, int off[4][2])
+static bool	check_neighbors(t_game *c, int x, int y, int off[4][2])
 {
 	int		k;
 	int		nx;
@@ -40,7 +40,7 @@ static bool	check_neighbors(t_cub *c, int x, int y, int off[4][2])
 	return (true);
 }
 
-static bool	set_player(t_cub *c, char ch, int x, int y)
+static bool	set_player(t_game *c, char ch, int x, int y)
 {
 	if (c->player_dir != '\0')
 		return (error(ERR_MULTIPLE_PLAYERS));
@@ -50,7 +50,7 @@ static bool	set_player(t_cub *c, char ch, int x, int y)
 	return (true);
 }
 
-bool	scan_player_and_chars(t_cub *c)
+bool	scan_player_and_chars(t_game *c)
 {
 	int			y;
 	int			x;
@@ -79,7 +79,7 @@ bool	scan_player_and_chars(t_cub *c)
 	return (true);
 }
 
-bool	validate_closed_map(t_cub *c)
+bool	validate_closed_map(t_game *c)
 {
 	int	y;
 	int	x;

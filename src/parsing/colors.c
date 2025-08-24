@@ -1,6 +1,6 @@
-#include "cub3d.h"
+#include "cub3D.h"
 #include "parser.h"
-#include  "error.h"
+#include "error.h"
 
 /* returns true on success; on failure, leaves *i at first invalid char */
 static bool	read_uint_255(const char *s, int *i, int *v)
