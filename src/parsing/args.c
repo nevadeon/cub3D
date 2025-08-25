@@ -26,12 +26,12 @@ bool	parse_args(int argc, char const *argv[])
 	int	fd;
 
 	if (argc != 2)
-		return (error_throw(ERR_INVALID_ARGUMENT));
+		return (error_cub3d(ERR_INVALID_ARGUMENT));
 	if (!has_cub_extension(argv[1]))
-		return (error_throw(ERR_FILE_EXTENSION));
+		return (error_cub3d(ERR_FILE_EXTENSION));
 	fd = open(argv[1], O_RDONLY);
 	if (fd < 0)
-		return (error_throw(ERR_OPEN_FAILED));
+		return (error_cub3d(ERR_OPEN_FAILED));
 	close(fd);
-	return (true);
+	return (RETURN_SUCCESS);
 }

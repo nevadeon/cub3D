@@ -28,26 +28,26 @@ static bool	check_neighbors(t_game *c, int x, int y, int off[4][2])
 		nx = x + off[k][0];
 		ny = y + off[k][1];
 		if (ny < 0 || ny >= c->map_h)
-			return (error_throw(ERR_MAP_NOT_CLOSED));
+			return (error_cub3d(ERR_MAP_NOT_CLOSED));
 		nlen = (int)str_len(c->map[ny]);
 		if (nx < 0 || nx >= nlen)
-			return (error_throw(ERR_MAP_NOT_CLOSED));
+			return (error_cub3d(ERR_MAP_NOT_CLOSED));
 		ch = c->map[ny][nx];
 		if (ch == ' ')
-			return (error_throw(ERR_MAP_NOT_CLOSED));
+			return (error_cub3d(ERR_MAP_NOT_CLOSED));
 		k++;
 	}
-	return (true);
+	return (RETURN_SUCCESS);
 }
 
 static bool	set_player(t_game *c, char ch, int x, int y)
 {
 	if (c->player_dir != '\0')
-		return (error_throw(ERR_MULTIPLE_PLAYERS));
+		return (error_cub3d(ERR_MULTIPLE_PLAYERS));
 	c->player_x = x;
 	c->player_y = y;
 	c->player_dir = ch;
-	return (true);
+	return (RETURN_SUCCESS);
 }
 
 bool	scan_player_and_chars(t_game *c)
@@ -66,17 +66,17 @@ bool	scan_player_and_chars(t_game *c)
 		{
 			ch = c->map[y][x];
 			if (!valid_map_char(ch))
-				return (error_throw(ERR_INVALID_CHAR));
+				return (error_cub3d(ERR_INVALID_CHAR));
 			if (ch == 'N' || ch == 'S' || ch == 'E' || ch == 'W')
 				if (!set_player(c, ch, x, y))
-					return (false);
+					return (RETURN_FAILURE);
 			x++;
 		}
 		y++;
 	}
 	if (c->player_dir == '\0')
-		return (error_throw(ERR_NO_PLAYER));
-	return (true);
+		return (error_cub3d(ERR_NO_PLAYER));
+	return (RETURN_SUCCESS);
 }
 
 bool	validate_closed_map(t_game *c)
@@ -96,10 +96,10 @@ bool	validate_closed_map(t_game *c)
 		{
 			if (is_walkable(c->map[y][x]))
 				if (!check_neighbors(c, x, y, off))
-					return (false);
+					return (RETURN_FAILURE);
 			x++;
 		}
 		y++;
 	}
-	return (true);
+	return (RETURN_SUCCESS);
 }

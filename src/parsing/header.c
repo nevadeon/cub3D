@@ -9,14 +9,14 @@ static bool	parse_map_line(t_alloc *alloc, t_game *g, char *line)
 	char	*copy;
 	char	**new_arr;
 
-	len = (int)str_clen(line, '\n', false);
+	len = (int)str_clen(line, '\n', RETURN_FAILURE);
 	copy = str_extract(alloc, line, 0, (size_t)len);
 	if (!copy)
-		return (false);
+		return (RETURN_FAILURE);
 	new_h = g->map_h + 1;
 	new_arr = mem_alloc(alloc, sizeof(char *) * (new_h + 1));
 	if (!new_arr)
-		return (false);
+		return (RETURN_FAILURE);
 	if (g->map)
 		str_memcpy(new_arr, g->map, sizeof(char *) * (g->map_h));
 	new_arr[g->map_h] = copy;
@@ -25,7 +25,7 @@ static bool	parse_map_line(t_alloc *alloc, t_game *g, char *line)
 	g->map_h = new_h;
 	if (len > g->map_w)
 		g->map_w = len;
-	return (true);
+	return (RETURN_SUCCESS);
 }
 
 bool	trim_path(const char *src, char **dst)
@@ -33,12 +33,12 @@ bool	trim_path(const char *src, char **dst)
 	int	i;
 
 	if (*dst)
-		return (error_throw(ERR_DUP_IDENTIFIER));
+		return (error_cub3d(ERR_DUP_IDENTIFIER));
 	i = skip_spaces(src);
 	if (src[i] == '\0')
-		return (false);
+		return (RETURN_FAILURE);
 	*dst = (char *)&src[i];
-	return (true);
+	return (RETURN_SUCCESS);
 }
 
 bool	parse_header_line(t_game *g, char *line)
@@ -58,7 +58,7 @@ bool	parse_header_line(t_game *g, char *line)
 		return (parse_rgb_triplet(&line[i + 1], &g->floor_rgb));
 	if (line[i] == 'C' && is_space(line[i + 1]))
 		return (parse_rgb_triplet(&line[i + 1], &g->ceil_rgb));
-	return (false);
+	return (RETURN_FAILURE);
 }
 
 static bool	is_header_prefix(const char *line)
@@ -72,8 +72,8 @@ static bool	is_header_prefix(const char *line)
 		|| (line[i] == 'E' && line[i + 1] == 'A' && is_space(line[i + 2]))
 		|| (line[i] == 'F' && is_space(line[i + 1]))
 		|| (line[i] == 'C' && is_space(line[i + 1])))
-		return (true);
-	return (false);
+		return (RETURN_SUCCESS);
+	return (RETURN_FAILURE);
 }
 
 bool	parse_lines(t_alloc *alloc, t_game *game, int fd)
@@ -81,8 +81,8 @@ bool	parse_lines(t_alloc *alloc, t_game *game, int fd)
 	char	*line;
 	bool	in_map;
 
-	in_map = false;
-	while (true)
+	in_map = RETURN_FAILURE;
+	while (RETURN_SUCCESS)
 	{
 		line = str_gnl(alloc, fd);
 		if (!line)
@@ -94,13 +94,13 @@ bool	parse_lines(t_alloc *alloc, t_game *game, int fd)
 			if (is_header_prefix(line))
 			{
 				if (!parse_header_line(game, line))
-					return (false);
+					return (RETURN_FAILURE);
 				continue ;
 			}
-			in_map = true;
+			in_map = RETURN_SUCCESS;
 		}
 		if (!parse_map_line(alloc, game, line))
-			return (false);
+			return (RETURN_FAILURE);
 	}
-	return (true);
+	return (RETURN_SUCCESS);
 }
