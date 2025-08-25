@@ -28,12 +28,14 @@ static void	init_game(t_game *game)
 		.player_x = -1,
 		.player_y = -1,
 		.player_dir = '\0',
+
 		.player.posX = 12,
 		.player.posY = 10,
 		.player.dirX = -1, // regarde vers la gauche
 		.player.dirY = 0,
 		.player.planeX = 0,
 		.player.planeY = 0.90, // FOV ~ 66°
+
 		.keys.w = 0,
 		.keys.s = 0,
 		.keys.a = 0,
@@ -41,6 +43,20 @@ static void	init_game(t_game *game)
 		.keys.left = 0,
 		.keys.right = 0,
 	};
+}
+
+int	error_cleanup(t_alloc **allocator)
+{
+	error_print();
+	free_allocator(allocator);
+	return (EXIT_FAILURE);
+}
+
+int	cleanup(t_alloc **allocator, t_game *game)
+{
+	destroy(game->mlx);
+	free_allocator(allocator);
+	return (EXIT_SUCCESS);
 }
 
 int	main(int argc, char const *argv[])
@@ -51,14 +67,14 @@ int	main(int argc, char const *argv[])
 
 	allocator = new_mgc_allocator(0);
 	if (!allocator)
-		return (1);
+		return (EXIT_FAILURE);
 	if (!parse_args(argc, argv))
-		return (error_print(), free_allocator(&allocator), EXIT_FAILURE);
+		return (error_cleanup(&allocator));
 	init_game(&game);
 	if (!parse_cub_file(allocator, &game, argv[1]))
-		return (error_print(), free_allocator(&allocator), EXIT_FAILURE);
+		return (error_cleanup(&allocator));
 	if (!init_mlx(&game, &mlx))
-		return (error_print(), free_allocator(&allocator), EXIT_FAILURE);
+		return (error_cleanup(&allocator));
 
 	// init_data() need
 	//{
@@ -71,7 +87,5 @@ int	main(int argc, char const *argv[])
 	// lancer la boucle
 	// run_mlx(&mlx, &game);
 
-	destroy(game.mlx);
-	free_allocator(&allocator);
-	return (0);
+	return (cleanup(&allocator, &game));
 }
