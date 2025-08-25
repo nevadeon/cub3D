@@ -1,12 +1,11 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <assert.h>
+#include <errno.h>
+#include <string.h>
 #include "error.h"
 
-/* simple static stack to record error context top-down */
-#define MAX_ERROR_COUNT 16
-
-static const char	*g_error_stack[MAX_ERROR_COUNT];
+static const char	*g_error_stack[ERROR_STACK_MAX];
 static int			g_error_count = 0;
 
 static const char	*g_error_strings[] = {
@@ -29,15 +28,7 @@ static const char	*g_error_strings[] = {
 	[ERR_UNKNOWN] = "Unknown error",
 };
 
-bool	error_cub3d(t_err code)
-{
-	assert(g_error_count < MAX_ERROR_COUNT);
-	assert(code > 0 && code < ERR_UNKNOWN);
-	g_error_stack[g_error_count++] = g_error_strings[code];
-	return (false);
-}
-
-void	error_print(void)
+void	error_flush(void)
 {
 	int		i;
 
@@ -56,7 +47,24 @@ void	error_print(void)
 	g_error_count = 0;
 }
 
-void	error_clear(void)
+bool	error_push_code(t_err code)
 {
-	g_error_count = 0;
+	assert(g_error_count < ERROR_STACK_MAX);
+	assert(code > 0 && code < ERR_UNKNOWN);
+	g_error_stack[g_error_count++] = g_error_strings[code];
+	return (false);
+}
+
+bool	error_push_str(const char *str)
+{
+	assert(g_error_count < ERROR_STACK_MAX);
+	g_error_stack[g_error_count++] = str;
+	return (false);
+}
+
+bool	error_push_errno(void)
+{
+	assert(g_error_count < ERROR_STACK_MAX);
+	g_error_stack[g_error_count++] = strerror(errno);
+	return (false);
 }

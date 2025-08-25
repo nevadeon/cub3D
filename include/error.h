@@ -3,7 +3,7 @@
 
 # include <stdbool.h>
 
-#define MAX_ERROR_COUNT 16
+#define ERROR_STACK_MAX 8
 
 typedef enum e_err
 {
@@ -26,8 +26,9 @@ typedef enum e_err
 	ERR_UNKNOWN,
 }	t_err;
 
-bool	error_cub3d(t_err code);
-void	error_print(void);
-void	error_clear(void);
+void	error_flush(void);
+bool	error_push_code(t_err code);
+bool	error_push_str(const char *str);
+bool	error_push_errno(void);
 
 #endif

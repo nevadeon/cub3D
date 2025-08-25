@@ -33,7 +33,7 @@ bool	trim_path(const char *src, char **dst)
 	int	i;
 
 	if (*dst)
-		return (error_cub3d(ERR_DUP_IDENTIFIER));
+		return (error_push_code(ERR_DUP_IDENTIFIER));
 	i = skip_spaces(src);
 	if (src[i] == '\0')
 		return (RETURN_FAILURE);

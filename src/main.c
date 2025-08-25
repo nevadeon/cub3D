@@ -47,7 +47,7 @@ static void	init_game(t_game *game)
 
 int	error_cleanup(t_alloc **allocator)
 {
-	error_print();
+	error_flush();
 	free_allocator(allocator);
 	return (EXIT_FAILURE);
 }
