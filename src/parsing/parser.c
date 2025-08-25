@@ -5,53 +5,32 @@
 #include "parser.h"
 #include "error.h"
 
-/* init */
-static void	init_game(t_game *c)
+bool	validate_identifiers(const t_game *game)
 {
-	*c = (t_game)
-	{
-		.tex_no = NULL,
-		.tex_so = NULL,
-		.tex_we = NULL,
-		.tex_ea = NULL,
-		.floor_rgb = -1,
-		.ceil_rgb = -1,
-		.map = NULL,
-		.map_w = 0,
-		.map_h = 0,
-		.player_x = -1,
-		.player_y = -1,
-		.player_dir = '\0',
-	};
-}
-
-bool	validate_identifiers(const t_game *c)
-{
-	if (!c->tex_no || !c->tex_so || !c->tex_we || !c->tex_ea)
-		return (error(ERR_INV_IDENTIFIER));
-	if (c->floor_rgb == -1 || c->ceil_rgb == -1)
-		return (error(ERR_INV_IDENTIFIER));
-	if (!c->map || c->map_h <= 0 || c->map_w <= 0)
-		return (error(ERR_MISSING_MAP));
+	if (!game->tex_no || !game->tex_so || !game->tex_we || !game->tex_ea)
+		return (error_throw(ERR_INV_IDENTIFIER));
+	if (game->floor_rgb == -1 || game->ceil_rgb == -1)
+		return (error_throw(ERR_INV_IDENTIFIER));
+	if (!game->map || game->map_h <= 0 || game->map_w <= 0)
+		return (error_throw(ERR_MISSING_MAP));
 	return (true);
 }
 
-bool	parse_cub_file(t_alloc *alloc, const char *path, t_game *out)
+bool	parse_cub_file(t_alloc *alloc, t_game *game, const char *path)
 {
 	int	fd;
 
-	init_game(out);
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
-		return (error(ERR_OPEN_FAILED));
-	if (!parse_lines(alloc, fd, out))
+		return (error_throw(ERR_OPEN_FAILED));
+	if (!parse_lines(alloc, game, fd))
 		return (close(fd), false);
 	close(fd);
-	if (!validate_identifiers(out))
+	if (!validate_identifiers(game))
 		return (false);
-	if (!scan_player_and_chars(out))
+	if (!scan_player_and_chars(game))
 		return (false);
-	if (!validate_closed_map(out))
+	if (!validate_closed_map(game))
 		return (false);
 	return (true);
 }

@@ -25,6 +25,6 @@ bool	scan_player_and_chars(t_game *c);
 bool	validate_closed_map(t_game *c);
 
 /* reading */
-bool	parse_lines(t_alloc *a, int fd, t_game *out);
+bool	parse_lines(t_alloc *a, t_game *out, int fd);
 
 #endif

@@ -1,5 +1,5 @@
-#ifndef cub3D
-# define cub3D
+#ifndef CUB3D_H
+# define CUB3D_H
 
 # include "mlx.h"
 //#include "libft/libft.h"
@@ -22,21 +22,21 @@
 # include "allocators/mgc_allocator.h"
 # include "tools/str.h"
 
-# define WINDOW_NAME        "Cub3D"
-# define WIDTH              1000
-# define HEIGHT             800
-# define EXIT_SUCCESS       0
-# define EXIT_FAILURE       1
+# define WINDOW_NAME	"Cub3D"
+# define WIDTH			1000
+# define HEIGHT			800
+# define EXIT_SUCCESS	0
+# define EXIT_FAILURE	1
 
 typedef struct s_mlx
 {
-	void    *mlx_init; //--> ptr vers mlx_init()
-	void    *mlx_win; //--> fenetre
-	void    *img_ptr; //--> img buffer
-	void    *addr; //-->acces au pixels
-	int     img_bpp; // bits pr pixel
-	int     line_len; //long d'une ligne en memoire
-	int     endian;
+	void	*mlx_init; //--> ptr vers mlx_init()
+	void	*mlx_win; //--> fenetre
+	void	*img_ptr; //--> img buffer
+	void	*addr; //-->acces au pixels
+	int		img_bpp; // bits pr pixel
+	int		line_len; //long d'une ligne en memoire
+	int		endian;
 }	t_mlx;
 
 typedef struct s_keys
@@ -51,13 +51,13 @@ typedef struct s_keys
 
 typedef struct s_player
 {
-    double  posX;
-    double  posY;
-    double  dirX;
-    double  dirY;
-    double  planeX;
-    double  planeY;
-}   t_player;
+	double	posX;
+	double	posY;
+	double	dirX;
+	double	dirY;
+	double	planeX;
+	double	planeY;
+}	t_player;
 
 // planeX planeY define the 2D plane perpendicular to the player view direction
 // determine : FOV, projection of 3D walls
@@ -67,40 +67,40 @@ typedef struct  s_game
 	t_mlx		*mlx;
 	t_keys		keys;
 	t_player	player;
-	char	*tex_no;
-	char	*tex_so;
-	char	*tex_we;
-	char	*tex_ea;
-	int		floor_rgb;
-	int		ceil_rgb;
-	char	**map;
-	int		map_w;
-	int		map_h;
-	int		player_x;
-	int		player_y;
-	char	player_dir;
+	char		*tex_no;
+	char		*tex_so;
+	char		*tex_we;
+	char		*tex_ea;
+	int			floor_rgb;
+	int			ceil_rgb;
+	char		**map;
+	int			map_w;
+	int			map_h;
+	int			player_x;
+	int			player_y;
+	char		player_dir;
 }	t_game;
 
 bool	parse_args(int argc, char const *argv[]);
-bool	parse_cub_file(t_alloc *alloc, const char *path, t_game *out);
+bool	parse_cub_file(t_alloc *alloc, t_game *out, const char *path);
 
 /*
         // INIT_MLX //
 */
-int         init_mlx(t_game *game, t_mlx *mlx);
-void        run_mlx(t_mlx *mlx, t_game *game);
-void        destroy(t_mlx *mlx);
+int		init_mlx(t_game *game, t_mlx *mlx);
+void	run_mlx(t_mlx *mlx, t_game *game);
+void	destroy(t_mlx *mlx);
 
-int         cross_escape(t_mlx *mlx);
-int         key_press(int key, t_game *game);
-int         key_release(int key, t_game *game);
+int		cross_escape(t_mlx *mlx);
+int		key_press(int key, t_game *game);
+int		key_release(int key, t_game *game);
 
 /*
         // RAYCASTING //
 */
-void        clear_image(t_mlx *mlx, int color);
-int         render(t_game *game);
-void        raycast(t_game *game);
+void	clear_image(t_mlx *mlx, int color);
+int		render(t_game *game);
+void	raycast(t_game *game);
 // void	draw_pixel(t_mlx *mlx, int x, int y_start, int y_end, int color);
 
 #endif
