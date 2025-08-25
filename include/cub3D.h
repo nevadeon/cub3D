@@ -22,6 +22,9 @@
 # include "allocators/mgc_allocator.h"
 # include "tools/str.h"
 
+# define RETURN_FAILURE	false
+# define RETURN_SUCCESS true
+
 # define WINDOW_NAME	"Cub3D"
 # define WIDTH			1000
 # define HEIGHT			800
@@ -87,7 +90,7 @@ bool	parse_cub_file(t_alloc *alloc, t_game *out, const char *path);
 /*
         // INIT_MLX //
 */
-int		init_mlx(t_game *game, t_mlx *mlx);
+bool	init_mlx(t_game *game, t_mlx *mlx);
 void	run_mlx(t_mlx *mlx, t_game *game);
 void	destroy(t_mlx *mlx);
 

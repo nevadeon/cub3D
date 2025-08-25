@@ -46,23 +46,23 @@ int cross_escape(t_mlx *mlx)
     return (0);
 }
 
-int init_mlx(t_game *game, t_mlx *mlx)
+bool init_mlx(t_game *game, t_mlx *mlx)
 {
-    game->mlx = mlx;
-    mlx->mlx_init = mlx_init();
-    if (!mlx->mlx_init)
-        return (EXIT_FAILURE);
-    mlx->mlx_win = mlx_new_window(mlx->mlx_init, WIDTH, HEIGHT, WINDOW_NAME);
-    if(!mlx->mlx_win)
-        return (EXIT_FAILURE);
-    mlx->img_ptr = mlx_new_image(mlx->mlx_init, WIDTH, HEIGHT);
-    if (!mlx->img_ptr)
-        return (EXIT_FAILURE);
-    mlx->addr = mlx_get_data_addr(mlx->img_ptr,
-            &mlx->img_bpp, &mlx->line_len, &mlx->endian);
-    if (!mlx->addr)
-        return (EXIT_FAILURE);
-    return (EXIT_SUCCESS);
+	game->mlx = mlx;
+	mlx->mlx_init = mlx_init();
+	if (!mlx->mlx_init)
+		return (error_cub3d(ERR_MLX));
+	mlx->mlx_win = mlx_new_window(mlx->mlx_init, WIDTH, HEIGHT, WINDOW_NAME);
+	if(!mlx->mlx_win)
+		return (destroy(mlx), error_cub3d(ERR_MLX));
+	mlx->img_ptr = mlx_new_image(mlx->mlx_init, WIDTH, HEIGHT);
+	if (!mlx->img_ptr)
+		return (destroy(mlx), error_cub3d(ERR_MLX));
+	mlx->addr = mlx_get_data_addr(mlx->img_ptr,
+			&mlx->img_bpp, &mlx->line_len, &mlx->endian);
+	if (!mlx->addr)
+		return (destroy(mlx), error_cub3d(ERR_MLX));
+	return (RETURN_SUCCESS);
 }
 
 void        run_mlx(t_mlx *mlx, t_game *game)

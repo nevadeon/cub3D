@@ -6,7 +6,7 @@
 /* simple static stack to record error context top-down */
 #define MAX_ERROR_COUNT 16
 
-static t_err		g_error_stack[MAX_ERROR_COUNT];
+static const char	*g_error_stack[MAX_ERROR_COUNT];
 static int			g_error_count = 0;
 
 static const char	*g_error_strings[] = {
@@ -25,22 +25,21 @@ static const char	*g_error_strings[] = {
 	[ERR_RGB_OVERFLOW] = "over 255 RGB value",
 	[ERR_RGB_NEGATIVE] = "Negative RGB value",
 	[ERR_RGB_TRAILING] = "Trailing characters after RGB value",
+	[ERR_MLX] = "Generic mlx error",
 	[ERR_UNKNOWN] = "Unknown error",
 };
 
-static const size_t	err_strings_size = sizeof(g_error_strings) / sizeof(char *);
-
-bool	error_throw(t_err code)
+bool	error_cub3d(t_err code)
 {
 	assert(g_error_count < MAX_ERROR_COUNT);
-	g_error_stack[g_error_count++] = code;
+	assert(code > 0 && code < ERR_UNKNOWN);
+	g_error_stack[g_error_count++] = g_error_strings[code];
 	return (false);
 }
 
 void	error_print(void)
 {
 	int		i;
-	t_err	code;
 
 	if (g_error_count == 0)
 		return ;
@@ -48,9 +47,7 @@ void	error_print(void)
 	i = g_error_count - 1;
 	while (i >= 0)
 	{
-		code = g_error_stack[i];
-		assert(code > 0 && code < err_strings_size);
-		dprintf(STDERR_FILENO, "%s", g_error_strings[code]);
+		dprintf(STDERR_FILENO, "%s", g_error_stack[i]);
 		if (i > 0)
 			dprintf(STDERR_FILENO, ": ");
 		i--;

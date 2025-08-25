@@ -22,10 +22,11 @@ typedef enum e_err
 	ERR_RGB_OVERFLOW,
 	ERR_RGB_TRAILING,
 	ERR_RGB_NEGATIVE,
+	ERR_MLX,
 	ERR_UNKNOWN,
 }	t_err;
 
-bool	error_throw(t_err code);
+bool	error_cub3d(t_err code);
 void	error_print(void);
 void	error_clear(void);
 
