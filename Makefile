@@ -24,7 +24,7 @@ $(MLX_PATH)/libmlx.a:
 	$(MAKE) -C $(MLX_PATH)
 
 $(NAME): $(OBJ) $(MLX_PATH)/libmlx.a
-	$(CC) $(CFLAGS) ${LDFLAGS} -o $@ $^
+	@$(CC) $(CFLAGS) ${LDFLAGS} -o $@ $^
 
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c
 	@mkdir -p $(dir $@)
@@ -50,10 +50,10 @@ gdb: all
 	gdb $(GDB_FLAGS) ./$(NAME)
 
 test-invalid-maps: all
-	@set -e; for f in maps/invalid*; do \
-		[ -e "$$f" ] || continue; \
-		printf "%s...\n" "$$f"; \
-		./$(NAME) "$$f" && echo "UNEXPECTED PASS"; echo;\
+	@for f in maps/invalid*; do \
+		echo $$f...; \
+		./$(NAME) "$$f" && echo "UNEXPECTED PASS"; \
+		echo exit code $$?; echo;\
 	done;
 
 test: CFLAGS+=-fsanitize=address

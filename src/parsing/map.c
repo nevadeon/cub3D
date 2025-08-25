@@ -28,13 +28,13 @@ static bool	check_neighbors(t_game *c, int x, int y, int off[4][2])
 		nx = x + off[k][0];
 		ny = y + off[k][1];
 		if (ny < 0 || ny >= c->map_h)
-			return (error(ERR_MAP_NOT_CLOSED));
+			return (error_throw(ERR_MAP_NOT_CLOSED));
 		nlen = (int)str_len(c->map[ny]);
 		if (nx < 0 || nx >= nlen)
-			return (error(ERR_MAP_NOT_CLOSED));
+			return (error_throw(ERR_MAP_NOT_CLOSED));
 		ch = c->map[ny][nx];
 		if (ch == ' ')
-			return (error(ERR_MAP_NOT_CLOSED));
+			return (error_throw(ERR_MAP_NOT_CLOSED));
 		k++;
 	}
 	return (true);
@@ -43,7 +43,7 @@ static bool	check_neighbors(t_game *c, int x, int y, int off[4][2])
 static bool	set_player(t_game *c, char ch, int x, int y)
 {
 	if (c->player_dir != '\0')
-		return (error(ERR_MULTIPLE_PLAYERS));
+		return (error_throw(ERR_MULTIPLE_PLAYERS));
 	c->player_x = x;
 	c->player_y = y;
 	c->player_dir = ch;
@@ -66,7 +66,7 @@ bool	scan_player_and_chars(t_game *c)
 		{
 			ch = c->map[y][x];
 			if (!valid_map_char(ch))
-				return (error(ERR_INVALID_CHAR));
+				return (error_throw(ERR_INVALID_CHAR));
 			if (ch == 'N' || ch == 'S' || ch == 'E' || ch == 'W')
 				if (!set_player(c, ch, x, y))
 					return (false);
@@ -75,7 +75,7 @@ bool	scan_player_and_chars(t_game *c)
 		y++;
 	}
 	if (c->player_dir == '\0')
-		return (error(ERR_NO_PLAYER));
+		return (error_throw(ERR_NO_PLAYER));
 	return (true);
 }
 

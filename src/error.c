@@ -22,14 +22,15 @@ static const char	*g_error_strings[] = {
 	[ERR_DUP_IDENTIFIER] = "Duplicate identifier",
 	[ERR_INV_IDENTIFIER] = "Missing or invalid identifier",
 	[ERR_MISSING_MAP] = "Missing map",
-	[ERR_RGB_OVERFLOW] = "One RGB value is over 255",
-	[ERR_RGB_TRAILING] = "Trailing characters after RGB values",
+	[ERR_RGB_OVERFLOW] = "over 255 RGB value",
+	[ERR_RGB_NEGATIVE] = "Negative RGB value",
+	[ERR_RGB_TRAILING] = "Trailing characters after RGB value",
 	[ERR_UNKNOWN] = "Unknown error",
 };
 
 static const size_t	err_strings_size = sizeof(g_error_strings) / sizeof(char *);
 
-bool	error(t_err code)
+bool	error_throw(t_err code)
 {
 	assert(g_error_count < MAX_ERROR_COUNT);
 	g_error_stack[g_error_count++] = code;
