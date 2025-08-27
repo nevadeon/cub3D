@@ -29,8 +29,8 @@ static void	init_game(t_game *game)
 		.player_y = -1,
 		.player_dir = '\0',
 
-		.player.posX = 12,
-		.player.posY = 10,
+		.player.posX = 2.5,//12,
+		.player.posY = 2.5,//10,
 		.player.dirX = -1, // regarde vers la gauche
 		.player.dirY = 0,
 		.player.planeX = 0,
@@ -65,14 +65,16 @@ int	main(int argc, char const *argv[])
 	t_game	game;
 	t_mlx	mlx;
 
+	(void)argc;
+	(void)argv;
 	allocator = new_mgc_allocator(0);
 	if (!allocator)
 		return (EXIT_FAILURE);
-	if (!parse_args(argc, argv))
-		return (error_cleanup(&allocator));
+	// if (!parse_args(argc, argv))
+	// 	return (error_cleanup(&allocator));
 	init_game(&game);
-	if (!parse_cub_file(allocator, &game, argv[1]))
-		return (error_cleanup(&allocator));
+	// if (!parse_cub_file(allocator, &game, argv[1]))
+	// 	return (error_cleanup(&allocator));
 	if (!init_mlx(&game, &mlx))
 		return (error_cleanup(&allocator));
 
@@ -85,7 +87,7 @@ int	main(int argc, char const *argv[])
 	//cleanup(&game)
 
 	// lancer la boucle
-	// run_mlx(&mlx, &game);
+	run_mlx(&mlx, &game);
 
 	return (cleanup(&allocator, &game));
 }

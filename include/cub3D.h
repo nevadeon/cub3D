@@ -65,22 +65,40 @@ typedef struct s_player
 // planeX planeY define the 2D plane perpendicular to the player view direction
 // determine : FOV, projection of 3D walls
 
+typedef struct s_ray
+{
+	float	perpWallDist;
+	// char		**map;
+	int			mapX;
+	int			mapY;
+	int			side;
+	float		dirX;
+	float		dirY;
+	float		stepX;
+	float		stepY;
+	float		sideDistX;
+	float		sideDistY;
+	float		deltaDistX;
+	float		deltaDistY;
+}	t_ray;
+
 typedef struct  s_game
 {
 	t_mlx		*mlx;
 	t_keys		keys;
 	t_player	player;
+	t_ray		ray;
 	char		*tex_no;
 	char		*tex_so;
 	char		*tex_we;
 	char		*tex_ea;
-	int			floor_rgb;
-	int			ceil_rgb;
 	char		**map;
 	int			map_w;
 	int			map_h;
-	int			player_x;
-	int			player_y;
+	int			floor_rgb;
+	int			ceil_rgb;
+	float		player_x;
+	float		player_y;
 	char		player_dir;
 }	t_game;
 
@@ -104,6 +122,37 @@ int		key_release(int key, t_game *game);
 void	clear_image(t_mlx *mlx, int color);
 int		render(t_game *game);
 void	raycast(t_game *game);
-// void	draw_pixel(t_mlx *mlx, int x, int y_start, int y_end, int color);
+void	draw_pixel(t_mlx *mlx, int x, int y_start, int y_end, int color);
+
+/*
+		// RAYS //
+*/
+
+void	cast_all_rays(t_game *game);
+void	cast_ray(t_game *game, int x);
+void	init_ray(t_game *game, int x);
+
+/*
+		// DDA //
+*/
+void	init_step(t_ray *ray, t_game *game);
+void	dda_algorithm(t_game *game, t_ray *ray);
+void	calculate_perp_wall_dist(t_ray *ray, t_game *game);
+
+/*
+		// DRAW //
+*/
+void draw_wall(t_ray *ray, t_game *game, int x);
+void draw_vertical_line(t_mlx *mlx, int x, int start, int end, int color);
+
+/*
+		//MOVEMENT//
+*/
+
+void	handle_move(t_game *game);
+void	move_forward(t_game *game);
+void	move_backward(t_game *game);
+void	move_left(t_game *game);
+void	move_right(t_game *game);
 
 #endif
