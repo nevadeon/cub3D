@@ -2,7 +2,7 @@
 
 void	cast_all_rays(t_game *game)
 {
-	int x;
+	int	x;
 
 	x = 0;
 	while (x < WIDTH)
@@ -14,7 +14,7 @@ void	cast_all_rays(t_game *game)
 
 void	cast_ray(t_game *game, int x)
 {
-	t_ray ray;
+	t_ray	ray;
 
 	init_ray(game, x);
 	ray = game->ray;
@@ -27,15 +27,13 @@ void	cast_ray(t_game *game, int x)
 
 void	init_ray(t_game *game, int x)
 {
-	double cameraX = 2 * x / (double)WIDTH - 1;
+	double	camera_x;
 
-	game->ray.dirX = game->player.dirX + game->player.planeX * cameraX;
-	game->ray.dirY = game->player.dirY + game->player.planeY * cameraX;
+	camera_x = 2 * x / (double)WIDTH - 1;
+	game->ray.dirX = game->player.dirX + game->player.planeX * camera_x;
+	game->ray.dirY = game->player.dirY + game->player.planeY * camera_x;
 	game->ray.mapX = (int)game->player.posX;
 	game->ray.mapY = (int)game->player.posY;
-
 	game->ray.deltaDistX = fabs(1 / game->ray.dirX);
 	game->ray.deltaDistY = fabs(1 / game->ray.dirY);
 }
-
-
