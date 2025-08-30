@@ -154,5 +154,5 @@ void	move_forward(t_game *game);
 void	move_backward(t_game *game);
 void	move_left(t_game *game);
 void	move_right(t_game *game);
-
+void	rotate(t_game *game);
 #endif
