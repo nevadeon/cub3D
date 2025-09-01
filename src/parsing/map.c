@@ -52,13 +52,33 @@ static bool	set_player(t_game *g, char ch, int x, int y)
 	g->player.posX = x + 0.5;
 	g->player.posY = y + 0.5;
 	if (ch == 'N')
-		g->player.dirY = -2;
+	{
+		g->player.dirY = -1;
+		g->player.dirX = 0;
+		g->player.planeX = 0.66;
+		g->player.planeY = 0;
+	}
 	else if (ch == 'S')
-		g->player.dirY = 2;
+	{
+		g->player.dirY = 1;
+		g->player.dirX = 0;
+		g->player.planeX = -0.66;
+		g->player.planeY = 0;
+	}
 	else if (ch == 'W')
-		g->player.dirX = -2;
+	{
+		g->player.dirY = 0;
+		g->player.dirX = -1;
+		g->player.planeX = 0;
+		g->player.planeY = -0.66;
+	}
 	else if (ch == 'E')
-		g->player.dirX = 2;
+	{
+		g->player.dirY = 0;
+		g->player.dirX = 1;
+		g->player.planeX = 0.66;
+		g->player.planeY = 0;
+	}
 	return (RETURN_SUCCESS);
 }
 

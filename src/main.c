@@ -1,13 +1,35 @@
 #include "error.h"
 #include "cub3D.h"
 
+
+/*
+PlaneX and PlaneY
+It must be perpendicular to the direction vector (dirX, dirY)
+and its length determines the field of view (FOV)
+
+he player direction vector (dirX, dirY) says where the player looks.
+Example: looking along X → dirX = 1, dirY = 0.
+
+The camera plane vector (planeX, planeY) is perpendicular to the direction.
+Example: if dir = (1, 0) → plane = (0, 0.66).
+
+The length of the plane controls the FOV:
+
+0.66 ≈ 66° FOV (classic Wolf3D look).
+
+Bigger values = wider FOV (like fisheye).
+
+Smaller values = narrower FOV (zoomed-in).
+*/
 static void	init_game(t_game *game)
 {
 	*game = (t_game){
 		.map.floor_rgb = -1,
 		.map.ceil_rgb = -1,
-		.player.planeX = 0.30,
-		.player.planeY = 0.30,
+		.player.planeX = 0.90,
+		.player.planeY = 0,
+		// .player.dirX = 0,
+		// .player.dirY = -1
 	};
 }
 
