@@ -1,47 +1,13 @@
 #include "error.h"
 #include "cub3D.h"
 
-// static void init_keys(t_keys *keys)
-// {
-// 	*keys = (t_keys){
-// 		.w = 0,
-// 		.s = 0,
-// 		.a = 0,
-// 		.d = 0,
-// 		.left = 0,
-// 		.right = 0,
-// 	};
-// }
-
 static void	init_game(t_game *game)
 {
 	*game = (t_game){
-		.tex_no = NULL,
-		.tex_so = NULL,
-		.tex_we = NULL,
-		.tex_ea = NULL,
-		.floor_rgb = -1,
-		.ceil_rgb = -1,
-		.map = NULL,
-		.map_w = 0,
-		.map_h = 0,
-		.player_x = -1,
-		.player_y = -1,
-		.player_dir = '\0',
-
-		.player.posX = 1.5,//12,
-		.player.posY = 1.5,//10,
-		.player.dirX = 2, // regarde vers la gauche
-		.player.dirY = 0,
-		.player.planeX = 0,
-		.player.planeY = 0.90, // FOV ~ 66°
-
-		.keys.w = 0,
-		.keys.s = 0,
-		.keys.a = 0,
-		.keys.d = 0,
-		.keys.left = 0,
-		.keys.right = 0,
+		.map.floor_rgb = -1,
+		.map.ceil_rgb = -1,
+		.player.planeX = 0.30,
+		.player.planeY = 0.30,
 	};
 }
 
@@ -50,13 +16,6 @@ int	error_cleanup(t_alloc **allocator)
 	error_flush();
 	free_allocator(allocator);
 	return (EXIT_FAILURE);
-}
-
-int	cleanup(t_alloc **allocator, t_game *game)
-{
-	destroy(game->mlx);
-	free_allocator(allocator);
-	return (EXIT_SUCCESS);
 }
 
 int	main(int argc, char const *argv[])
@@ -70,11 +29,11 @@ int	main(int argc, char const *argv[])
 	allocator = new_mgc_allocator(0);
 	if (!allocator)
 		return (EXIT_FAILURE);
-	// if (!parse_args(argc, argv))
-	// 	return (error_cleanup(&allocator));
+	if (!parse_args(argc, argv))
+		return (error_cleanup(&allocator));
 	init_game(&game);
-	// if (!parse_cub_file(allocator, &game, argv[1]))
-	// 	return (error_cleanup(&allocator));
+	if (!parse_cub_file(allocator, &game, argv[1]))
+		return (error_cleanup(&allocator));
 	if (!init_mlx(&game, &mlx))
 		return (error_cleanup(&allocator));
 
@@ -86,8 +45,36 @@ int	main(int argc, char const *argv[])
 	//}
 	//cleanup(&game)
 
-	// lancer la boucle
-	run_mlx(&mlx, &game);
+	/* Debug dump of game struct */
+	// printf("--- GAME DUMP ---\n");
+	// printf("tex_no: %s\n", game.map.tex_no ? game.map.tex_no : "(null)");
+	// printf("tex_so: %s\n", game.map.tex_so ? game.map.tex_so : "(null)");
+	// printf("tex_we: %s\n", game.map.tex_we ? game.map.tex_we : "(null)");
+	// printf("tex_ea: %s\n", game.map.tex_ea ? game.map.tex_ea : "(null)");
+	// printf("floor_rgb: %d\n", game.map.floor_rgb);
+	// printf("ceil_rgb: %d\n", game.map.ceil_rgb);
+	// printf("map.width: %d\n", game.map.width);
+	// printf("map.height: %d\n", game.map.height);
+	// printf("player.posX: %f\n", game.player.posX);
+	// printf("player.posY: %f\n", game.player.posY);
+	// printf("player.dirX: %f\n", game.player.dirX);
+	// printf("player.dirY: %f\n", game.player.dirY);
+	// printf("player.planeX: %f\n", game.player.planeX);
+	// printf("player.planeY: %f\n", game.player.planeY);
+	// printf("keys: w=%d s=%d a=%d d=%d left=%d right=%d\n",
+	// 	game.keys.w, game.keys.s, game.keys.a, game.keys.d, game.keys.left, game.keys.right);
+	// printf("ray.perpWallDist: %f mapX=%d mapY=%d side=%d\n",
+	// 	game.ray.perpWallDist, game.ray.mapX, game.ray.mapY, game.ray.side);
+	// printf("mlx ptr: %p\n", (void *)game.mlx);
+	// printf("map rows (first 20):\n");
+	// for (int y = 0; y < game.map.height; y++)
+	// {
+	// 	printf("%3d: %s\n", y, game.map.grid[y] ? game.map.grid[y] : "(null)");
+	// }
+	// printf("--- END DUMP ---\n");
 
-	return (cleanup(&allocator, &game));
+	run_mlx(&mlx, &game);
+	destroy(game.mlx);
+	free_allocator(&allocator);
+	return (EXIT_SUCCESS);
 }

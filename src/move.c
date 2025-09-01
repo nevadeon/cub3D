@@ -17,13 +17,13 @@ void	move_forward(t_game *game)
 		offset = -player_radius;
 	new_x = game->player.posX + game->player.dirX * move_speed;
 	new_y = game->player.posY + game->player.dirY * move_speed;
-	if (game->map[(int)game->player.posY][(int)(new_x + offset)] == '0')
+	if (game->map.grid[(int)game->player.posY][(int)(new_x + offset)] == '0')
 		game->player.posX = new_x;
 	if (game->player.dirY > 0)
 		offset = player_radius;
 	else
 		offset = -player_radius;
-	if (game->map[(int)(new_y + offset)][(int)game->player.posX] == '0')
+	if (game->map.grid[(int)(new_y + offset)][(int)game->player.posX] == '0')
 		game->player.posY = new_y;
 }
 
@@ -47,7 +47,7 @@ void	move_backward(t_game *game)
 		offset = -player_radius;
 	new_x = game->player.posX - game->player.dirX * move_speed;
 	new_y = game->player.posY - game->player.dirY * move_speed;
-	if (game->map[(int)game->player.posY][(int)(new_x + offset)] == '0')
+	if (game->map.grid[(int)game->player.posY][(int)(new_x + offset)] == '0')
 		game->player.posX = new_x;
 
 	//colision Y
@@ -55,7 +55,7 @@ void	move_backward(t_game *game)
 		offset = player_radius;
 	else
 		offset = -player_radius;
-	if (game->map[(int)(new_y + offset)][(int)game->player.posX] == '0')
+	if (game->map.grid[(int)(new_y + offset)][(int)game->player.posX] == '0')
 		game->player.posY = new_y;
 }
 
@@ -77,14 +77,14 @@ void	move_left(t_game *game)
 		offset = player_radius;
 	else
 		offset = -player_radius;
-	if (game->map[(int)game->player.posY][(int)(new_x + offset)] == '0')
+	if (game->map.grid[(int)game->player.posY][(int)(new_x + offset)] == '0')
 		game->player.posX = new_x;
 
 	if (-game->player.planeY > 0)
 		offset = player_radius;
 	else
 		offset = -player_radius;
-	if (game->map[(int)(new_y + offset)][(int)game->player.posX] == '0')
+	if (game->map.grid[(int)(new_y + offset)][(int)game->player.posX] == '0')
 		game->player.posY = new_y;
 }
 
@@ -106,13 +106,13 @@ void	move_right(t_game *game)
 		offset = player_radius;
 	else
 		offset = -player_radius;
-	if (game->map[(int)game->player.posY][(int)(new_x + offset)] == '0')
+	if (game->map.grid[(int)game->player.posY][(int)(new_x + offset)] == '0')
 		game->player.posX = new_x;
 	if (game->player.planeY > 0)
 		offset = player_radius;
 	else
 		offset = -player_radius;
-	if (game->map[(int)(new_y + offset)][(int)game->player.posX] == '0')
+	if (game->map.grid[(int)(new_y + offset)][(int)game->player.posX] == '0')
 		game->player.posY = new_y;
 }
 

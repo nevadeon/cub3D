@@ -14,72 +14,84 @@ static void	init_offsets(int off[4][2])
 	off[3][1] = -1;
 }
 
-static bool	check_neighbors(t_game *c, int x, int y, int off[4][2])
+static bool	check_neighbors(t_game *g, int x, int y, int off[4][2])
 {
 	int		k;
 	int		nx;
 	int		ny;
 	int		nlen;
-	char	ch;
+	char	c;
 
 	k = 0;
 	while (k < 4)
 	{
 		nx = x + off[k][0];
 		ny = y + off[k][1];
-		if (ny < 0 || ny >= c->map_h)
+		if (ny < 0 || ny >= g->map.height)
 			return (error_push_code(ERR_MAP_NOT_CLOSED));
-		nlen = (int)str_len(c->map[ny]);
+		nlen = (int)str_len(g->map.grid[ny]);
 		if (nx < 0 || nx >= nlen)
 			return (error_push_code(ERR_MAP_NOT_CLOSED));
-		ch = c->map[ny][nx];
-		if (ch == ' ')
+		c = g->map.grid[ny][nx];
+		if (c == ' ')
 			return (error_push_code(ERR_MAP_NOT_CLOSED));
 		k++;
 	}
 	return (RETURN_SUCCESS);
 }
 
-static bool	set_player(t_game *c, char ch, int x, int y)
+// nord x 0 y -2
+// sud  x 0 y 2
+// ouest x -2 y 0
+// est  x 2 y 0
+
+static bool	set_player(t_game *g, char ch, int x, int y)
 {
-	if (c->player_dir != '\0')
+	if (g->player.posX != 0)
 		return (error_push_code(ERR_MULTIPLE_PLAYERS));
-	c->player_x = x;
-	c->player_y = y;
-	c->player_dir = ch;
+	g->player.posX = x + 0.5;
+	g->player.posY = y + 0.5;
+	if (ch == 'N')
+		g->player.dirY = -2;
+	else if (ch == 'S')
+		g->player.dirY = 2;
+	else if (ch == 'W')
+		g->player.dirX = -2;
+	else if (ch == 'E')
+		g->player.dirX = 2;
 	return (RETURN_SUCCESS);
 }
 
-bool	scan_player_and_chars(t_game *c)
+bool	scan_player_and_chars(t_game *g)
 {
-	int			y;
-	int			x;
-	int			len;
-	char		ch;
+	int		y;
+	int		x;
+	int		len;
+	char	c;
 
 	y = 0;
-	while (y < c->map_h)
+	while (y < g->map.height)
 	{
-		len = (int)str_len(c->map[y]);
+		len = (int)str_len(g->map.grid[y]);
 		x = 0;
 		while (x < len)
 		{
-			ch = c->map[y][x];
-			if (!valid_map_char(ch))
+			c = g->map.grid[y][x];
+			if (!valid_map_char(c))
 				return (error_push_code(ERR_INVALID_CHAR));
-			if (ch == 'N' || ch == 'S' || ch == 'E' || ch == 'W')
-				if (!set_player(c, ch, x, y))
+			if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
+				if (!set_player(g, c, x, y))
 					return (RETURN_FAILURE);
 			x++;
 		}
 		y++;
 	}
-	if (c->player_dir == '\0')
+	if (g->player.posX == 0)
 		return (error_push_code(ERR_NO_PLAYER));
 	return (RETURN_SUCCESS);
 }
 
-bool	validate_closed_map(t_game *c)
+bool	validate_closed_map(t_game *g)
 {
 	int	y;
 	int	x;
@@ -88,14 +100,14 @@ bool	validate_closed_map(t_game *c)
 
 	init_offsets(off);
 	y = 0;
-	while (y < c->map_h)
+	while (y < g->map.height)
 	{
-		len = (int)str_len(c->map[y]);
+		len = (int)str_len(g->map.grid[y]);
 		x = 0;
 		while (x < len)
 		{
-			if (is_walkable(c->map[y][x]))
-				if (!check_neighbors(c, x, y, off))
+			if (is_walkable(g->map.grid[y][x]))
+				if (!check_neighbors(g, x, y, off))
 					return (RETURN_FAILURE);
 			x++;
 		}

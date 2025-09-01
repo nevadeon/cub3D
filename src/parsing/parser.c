@@ -5,13 +5,13 @@
 #include "parser.h"
 #include "error.h"
 
-bool	validate_identifiers(const t_game *game)
+bool	validate_identifiers(const t_game *g)
 {
-	if (!game->tex_no || !game->tex_so || !game->tex_we || !game->tex_ea)
+	if (!g->map.tex_no || !g->map.tex_so || !g->map.tex_we || !g->map.tex_ea)
 		return (error_push_code(ERR_INV_IDENTIFIER));
-	if (game->floor_rgb == -1 || game->ceil_rgb == -1)
+	if (g->map.floor_rgb == -1 || g->map.ceil_rgb == -1)
 		return (error_push_code(ERR_INV_IDENTIFIER));
-	if (!game->map || game->map_h <= 0 || game->map_w <= 0)
+	if (!g->map.grid || g->map.height <= 0 || g->map.width <= 0)
 		return (error_push_code(ERR_MISSING_MAP));
 	return (RETURN_SUCCESS);
 }

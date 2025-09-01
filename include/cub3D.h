@@ -28,6 +28,9 @@
 # define WINDOW_NAME	"Cub3D"
 # define WIDTH			1000
 # define HEIGHT			800
+# define TILE_SIZE		64
+# define PLANE_Y		0.90 // FOV ~ 66°
+
 # define EXIT_SUCCESS	0
 # define EXIT_FAILURE	1
 
@@ -68,38 +71,39 @@ typedef struct s_player
 typedef struct s_ray
 {
 	float	perpWallDist;
-	// char		**map;
-	int			mapX;
-	int			mapY;
-	int			side;
-	float		dirX;
-	float		dirY;
-	float		stepX;
-	float		stepY;
-	float		sideDistX;
-	float		sideDistY;
-	float		deltaDistX;
-	float		deltaDistY;
+	int		mapX;
+	int		mapY;
+	int		side;
+	float	dirX;
+	float	dirY;
+	float	stepX;
+	float	stepY;
+	float	sideDistX;
+	float	sideDistY;
+	float	deltaDistX;
+	float	deltaDistY;
 }	t_ray;
 
-typedef struct  s_game
+typedef struct s_map
+{
+	char	**grid;
+	char	*tex_no;
+	char	*tex_so;
+	char	*tex_we;
+	char	*tex_ea;
+	int		width;
+	int		height;
+	int		floor_rgb;
+	int		ceil_rgb;
+}	t_map;
+
+typedef struct s_game
 {
 	t_mlx		*mlx;
-	t_keys		keys;
+	t_map		map;
 	t_player	player;
+	t_keys		keys;
 	t_ray		ray;
-	char		*tex_no;
-	char		*tex_so;
-	char		*tex_we;
-	char		*tex_ea;
-	char		**map;
-	int			map_w;
-	int			map_h;
-	int			floor_rgb;
-	int			ceil_rgb;
-	float		player_x;
-	float		player_y;
-	char		player_dir;
 }	t_game;
 
 bool	parse_args(int argc, char const *argv[]);

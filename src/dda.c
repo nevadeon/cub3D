@@ -47,9 +47,9 @@ void	dda_algorithm(t_game *game, t_ray *ray)
 		}
 		// sécurité : éviter un segfault si on sort de la map
 		if (ray->mapX < 0 || ray->mapY < 0
-			|| ray->mapY >= game->map_h || ray->mapX >= game->map_w)
+			|| ray->mapY >= game->map.height || ray->mapX >= game->map.width)
 			break ;
-		if (game->map[ray->mapY][ray->mapX] == '1')
+		if (game->map.grid[ray->mapY][ray->mapX] == '1')
 			hit = 1;
 	}
 }
