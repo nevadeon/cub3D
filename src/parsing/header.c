@@ -4,27 +4,27 @@
 
 static bool	parse_map_line(t_alloc *alloc, t_game *g, char *line)
 {
+	char	**new_arr;
+	char	*copy;
 	int		len;
 	int		new_h;
-	char	*copy;
-	char	**new_arr;
 
 	len = (int)str_clen(line, '\n', RETURN_FAILURE);
 	copy = str_extract(alloc, line, 0, (size_t)len);
 	if (!copy)
 		return (RETURN_FAILURE);
-	new_h = g->map_h + 1;
+	new_h = g->map.height + 1;
 	new_arr = mem_alloc(alloc, sizeof(char *) * (new_h + 1));
 	if (!new_arr)
 		return (RETURN_FAILURE);
-	if (g->map)
-		str_memcpy(new_arr, g->map, sizeof(char *) * (g->map_h));
-	new_arr[g->map_h] = copy;
+	if (g->map.grid)
+		str_memcpy(new_arr, g->map.grid, sizeof(char *) * (g->map.height));
+	new_arr[g->map.height] = copy;
 	new_arr[new_h] = NULL;
-	g->map = new_arr;
-	g->map_h = new_h;
-	if (len > g->map_w)
-		g->map_w = len;
+	g->map.grid = new_arr;
+	g->map.height = new_h;
+	if (len > g->map.width)
+		g->map.width = len;
 	return (RETURN_SUCCESS);
 }
 
@@ -47,17 +47,17 @@ bool	parse_header_line(t_game *g, char *line)
 
 	i = skip_spaces(line);
 	if (line[i] == 'N' && line[i + 1] == 'O' && is_space(line[i + 2]))
-		return (trim_path(&line[i + 2], &g->tex_no));
+		return (trim_path(&line[i + 2], &g->map.tex_no));
 	if (line[i] == 'S' && line[i + 1] == 'O' && is_space(line[i + 2]))
-		return (trim_path(&line[i + 2], &g->tex_so));
+		return (trim_path(&line[i + 2], &g->map.tex_so));
 	if (line[i] == 'W' && line[i + 1] == 'E' && is_space(line[i + 2]))
-		return (trim_path(&line[i + 2], &g->tex_we));
+		return (trim_path(&line[i + 2], &g->map.tex_we));
 	if (line[i] == 'E' && line[i + 1] == 'A' && is_space(line[i + 2]))
-		return (trim_path(&line[i + 2], &g->tex_ea));
+		return (trim_path(&line[i + 2], &g->map.tex_ea));
 	if (line[i] == 'F' && is_space(line[i + 1]))
-		return (parse_rgb_triplet(&line[i + 1], &g->floor_rgb));
+		return (parse_rgb_triplet(&line[i + 1], &g->map.floor_rgb));
 	if (line[i] == 'C' && is_space(line[i + 1]))
-		return (parse_rgb_triplet(&line[i + 1], &g->ceil_rgb));
+		return (parse_rgb_triplet(&line[i + 1], &g->map.ceil_rgb));
 	return (RETURN_FAILURE);
 }
 
@@ -81,8 +81,8 @@ bool	parse_lines(t_alloc *alloc, t_game *game, int fd)
 	char	*line;
 	bool	in_map;
 
-	in_map = RETURN_FAILURE;
-	while (RETURN_SUCCESS)
+	in_map = false;
+	while (true)
 	{
 		line = str_gnl(alloc, fd);
 		if (!line)
@@ -97,7 +97,7 @@ bool	parse_lines(t_alloc *alloc, t_game *game, int fd)
 					return (RETURN_FAILURE);
 				continue ;
 			}
-			in_map = RETURN_SUCCESS;
+			in_map = true;
 		}
 		if (!parse_map_line(alloc, game, line))
 			return (RETURN_FAILURE);

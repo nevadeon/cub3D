@@ -35,9 +35,6 @@ char *worldMap[30] = {
 
 int	render(t_game *game)
 {
-	game->map = worldMap;
-	game->map_h = 30;
-	game->map_w = 30;
 	clear_image(game->mlx, 0x003366);
 	handle_move(game);
 	cast_all_rays(game);
