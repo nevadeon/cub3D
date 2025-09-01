@@ -29,9 +29,9 @@ static void	init_game(t_game *game)
 		.player_y = -1,
 		.player_dir = '\0',
 
-		.player.posX = 2.5,//12,
-		.player.posY = 2.5,//10,
-		.player.dirX = -1, // regarde vers la gauche
+		.player.posX = 1.5,//12,
+		.player.posY = 1.5,//10,
+		.player.dirX = 2, // regarde vers la gauche
 		.player.dirY = 0,
 		.player.planeX = 0,
 		.player.planeY = 0.90, // FOV ~ 66°
