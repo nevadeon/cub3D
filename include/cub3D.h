@@ -29,7 +29,12 @@
 # define WIDTH			1000
 # define HEIGHT			800
 # define TILE_SIZE		64
-# define PLANE_Y		0.90 // FOV ~ 66°
+//# define PLANE_Y		0.90 // FOV ~ 66°
+
+# define TEXTURE_NORTH	0
+# define TEXTURE_SOUTH	1
+# define TEXTURE_EAST	2
+# define TEXTURE_WEST	3
 
 # define EXIT_SUCCESS	0
 # define EXIT_FAILURE	1
@@ -84,6 +89,23 @@ typedef struct s_ray
 	float	deltaDistY;
 }	t_ray;
 
+typedef struct s_texture
+{
+	void	*img;
+	char	*addr;
+	int		bits_per_pixel;
+	int		endian;
+	int		line_len;
+	int		w;
+	int		h;
+	int		*pixel;
+	int		tex_x;
+	int		tex_y;
+	float	step;
+	float	tex_pos;
+	int		color;
+}	t_textures;
+
 typedef struct s_map
 {
 	char	**grid;
@@ -104,6 +126,7 @@ typedef struct s_game
 	t_player	player;
 	t_keys		keys;
 	t_ray		ray;
+	t_textures	tex[4];
 }	t_game;
 
 bool	parse_args(int argc, char const *argv[]);
@@ -126,7 +149,8 @@ int		key_release(int key, t_game *game);
 void	clear_image(t_mlx *mlx, int color);
 int		render(t_game *game);
 void	raycast(t_game *game);
-void	draw_pixel(t_mlx *mlx, int x, int y_start, int y_end, int color);
+//void	draw_pixel(t_mlx *mlx, int x, int y_start, int y_end, int color);
+void	put_pixel(t_mlx *mlx, int x, int y, int color);
 
 /*
 		// RAYS //
@@ -148,15 +172,22 @@ void	calculate_perp_wall_dist(t_ray *ray, t_game *game);
 */
 void draw_wall(t_ray *ray, t_game *game, int x);
 void draw_vertical_line(t_mlx *mlx, int x, int start, int end, int color);
+void	draw_textured_wall(t_game *game, t_ray *ray, int x, int start, int end);
+void	setup_texture_mapping(t_game  *game, t_ray *ray, int start, int end);
 
 /*
 		//MOVEMENT//
 */
-
 void	handle_move(t_game *game);
 void	move_forward(t_game *game);
 void	move_backward(t_game *game);
 void	move_left(t_game *game);
 void	move_right(t_game *game);
 void	rotate(t_game *game);
+
+/*
+		//TEXTURES//
+*/
+int	get_texture_index(t_ray *ray);
+void	load_texture(t_game *game);
 #endif
