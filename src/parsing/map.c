@@ -40,11 +40,6 @@ static bool	check_neighbors(t_game *g, int x, int y, int off[4][2])
 	return (RETURN_SUCCESS);
 }
 
-// nord x 0 y -2
-// sud  x 0 y 2
-// ouest x -2 y 0
-// est  x 2 y 0
-
 static bool	set_player(t_game *g, char ch, int x, int y)
 {
 	if (g->player.posX != 0)
@@ -76,9 +71,10 @@ static bool	set_player(t_game *g, char ch, int x, int y)
 	{
 		g->player.dirY = 0;
 		g->player.dirX = 1;
-		g->player.planeX = 0.66;
-		g->player.planeY = 0;
+		g->player.planeX = 0;
+		g->player.planeY = 0.66;
 	}
+	g->map.grid[y][x] = '0';
 	return (RETURN_SUCCESS);
 }
 

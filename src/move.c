@@ -124,11 +124,11 @@ void	rotate(t_game *game)
 	double	old_plane_x;
 
 	rot_speed = 0.03;
-	angle = rot_speed;
+	angle = -rot_speed;
 	old_dir_x = game->player.dirX;
 	old_plane_x = game->player.planeX;
 	if (game->keys.right)
-		angle = -rot_speed;
+		angle = rot_speed;
 	game->player.dirX = game->player.dirX * cos(angle) - game->player.dirY * sin(angle);
 	game->player.dirY = old_dir_x * sin(angle) + game->player.dirY * cos(angle);
 	game->player.planeX = game->player.planeX * cos(angle) - game->player.planeY * sin(angle);
