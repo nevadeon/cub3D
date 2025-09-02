@@ -35,6 +35,7 @@ char *worldMap[30] = {
 
 int	render(t_game *game)
 {
+	//load_texture(game);
 	clear_image(game->mlx, 0x003366);
 	handle_move(game);
 	cast_all_rays(game);
@@ -62,12 +63,23 @@ void	clear_image(t_mlx *mlx, int color)
 	}
 }
 
-void	draw_pixel(t_mlx *mlx, int x, int y_start, int y_end, int color)
+// void	draw_pixel(t_mlx *mlx, int x, int y_start, int y_end, int color)
+// {
+// 	int y = y_start;
+// 	while (y <= y_end)
+// 	{
+// 		char *px = mlx->addr + (y * mlx->line_len + x * (mlx->img_bpp / 8));
+// 		*(unsigned int *)px = color;
+// 	}
+// }
+
+void	put_pixel(t_mlx *mlx, int x, int y, int color)
 {
-	int y = y_start;
-	while (y <= y_end)
-	{
-		char *px = mlx->addr + (y * mlx->line_len + x * (mlx->img_bpp / 8));
-		*(unsigned int *)px = color;
-	}
+	char *px;
+
+	px = NULL;
+	if (x < 0 || y < 0 || x >= WIDTH || y <= HEIGHT)
+		return;
+	px = mlx->addr + (y * mlx->line_len + x * (mlx->img_bpp / 8));
+	*(unsigned int *)px = color;
 }
