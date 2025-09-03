@@ -66,33 +66,34 @@ int	main(int argc, char const *argv[])
 	//cleanup(&game)
 
 	/* Debug dump of game struct */
-	printf("--- GAME DUMP ---\n");
-	printf("tex_no: %s\n", game.map.tex_no ? game.map.tex_no : "(null)");
-	printf("tex_so: %s\n", game.map.tex_so ? game.map.tex_so : "(null)");
-	printf("tex_we: %s\n", game.map.tex_we ? game.map.tex_we : "(null)");
-	printf("tex_ea: %s\n", game.map.tex_ea ? game.map.tex_ea : "(null)");
-	printf("floor_rgb: %d\n", game.map.floor_rgb);
-	printf("ceil_rgb: %d\n", game.map.ceil_rgb);
-	printf("map.width: %d\n", game.map.width);
-	printf("map.height: %d\n", game.map.height);
-	printf("player.posX: %f\n", game.player.posX);
-	printf("player.posY: %f\n", game.player.posY);
-	printf("player.dirX: %f\n", game.player.dirX);
-	printf("player.dirY: %f\n", game.player.dirY);
-	printf("player.planeX: %f\n", game.player.planeX);
-	printf("player.planeY: %f\n", game.player.planeY);
-	printf("keys: w=%d s=%d a=%d d=%d left=%d right=%d\n",
-		game.keys.w, game.keys.s, game.keys.a, game.keys.d, game.keys.left, game.keys.right);
-	printf("ray.perpWallDist: %f mapX=%d mapY=%d side=%d\n",
-		game.ray.perpWallDist, game.ray.mapX, game.ray.mapY, game.ray.side);
-	printf("mlx ptr: %p\n", (void *)game.mlx);
-	printf("map rows (first 20):\n");
-	for (int y = 0; y < game.map.height; y++)
-	{
-		printf("%3d: %s\n", y, game.map.grid[y] ? game.map.grid[y] : "(null)");
-	}
-	printf("--- END DUMP ---\n");
+	// printf("--- GAME DUMP ---\n");
+	// printf("tex_no: %s\n", game.map.tex_no ? game.map.tex_no : "(null)");
+	// printf("tex_so: %s\n", game.map.tex_so ? game.map.tex_so : "(null)");
+	// printf("tex_we: %s\n", game.map.tex_we ? game.map.tex_we : "(null)");
+	// printf("tex_ea: %s\n", game.map.tex_ea ? game.map.tex_ea : "(null)");
+	// printf("floor_rgb: %d\n", game.map.floor_rgb);
+	// printf("ceil_rgb: %d\n", game.map.ceil_rgb);
+	// printf("map.width: %d\n", game.map.width);
+	// printf("map.height: %d\n", game.map.height);
+	// printf("player.posX: %f\n", game.player.posX);
+	// printf("player.posY: %f\n", game.player.posY);
+	// printf("player.dirX: %f\n", game.player.dirX);
+	// printf("player.dirY: %f\n", game.player.dirY);
+	// printf("player.planeX: %f\n", game.player.planeX);
+	// printf("player.planeY: %f\n", game.player.planeY);
+	// printf("keys: w=%d s=%d a=%d d=%d left=%d right=%d\n",
+	// 	game.keys.w, game.keys.s, game.keys.a, game.keys.d, game.keys.left, game.keys.right);
+	// printf("ray.perpWallDist: %f mapX=%d mapY=%d side=%d\n",
+	// 	game.ray.perpWallDist, game.ray.mapX, game.ray.mapY, game.ray.side);
+	// printf("mlx ptr: %p\n", (void *)game.mlx);
+	// printf("map rows (first 20):\n");
+	// for (int y = 0; y < game.map.height; y++)
+	// {
+	// 	printf("%3d: %s\n", y, game.map.grid[y] ? game.map.grid[y] : "(null)");
+	// }
+	// printf("--- END DUMP ---\n");
 	run_mlx(&mlx, &game);
+	free_textures(&game);
 	destroy(game.mlx);
 	free_allocator(&allocator);
 	return (EXIT_SUCCESS);

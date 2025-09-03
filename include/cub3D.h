@@ -26,8 +26,8 @@
 # define RETURN_SUCCESS true
 
 # define WINDOW_NAME	"Cub3D"
-# define WIDTH			1000
-# define HEIGHT			800
+# define WIDTH			1500
+# define HEIGHT			900
 # define TILE_SIZE		64
 //# define PLANE_Y		0.90 // FOV ~ 66°
 
@@ -149,7 +149,6 @@ int		key_release(int key, t_game *game);
 void	clear_image(t_mlx *mlx, int color);
 int		render(t_game *game);
 void	raycast(t_game *game);
-//void	draw_pixel(t_mlx *mlx, int x, int y_start, int y_end, int color);
 void	put_pixel(t_mlx *mlx, int x, int y, unsigned int color);
 
 /*
@@ -191,7 +190,7 @@ void	rotate(t_game *game);
 /*
 		//TEXTURES//
 */
-//int		get_texture_index(t_ray *ray);
 int	load_all_textures(t_game *game);
 int	load_texture(t_mlx *mlx, t_textures *tex, char *path);
+void	free_textures(t_game *game);
 #endif
