@@ -70,9 +70,12 @@ void	run_mlx(t_mlx *mlx, t_game *game)
 	mlx_hook(mlx->mlx_win, DestroyNotify, StructureNotifyMask, cross_escape, mlx);
 	mlx_hook(mlx->mlx_win, KeyPress, KeyPressMask, key_press, game);
 	mlx_hook(mlx->mlx_win, KeyRelease, KeyReleaseMask, key_release, game);
-	load_texture(game);
+	if (load_all_textures(game))
+	{
+		printf("failed load texture\n");
+		exit(0);
+	}
 	mlx_loop_hook(mlx->mlx_init, render, game);
-	//load_texture(game);
 	mlx_loop(mlx->mlx_init);
 }
 

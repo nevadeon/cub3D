@@ -150,7 +150,7 @@ void	clear_image(t_mlx *mlx, int color);
 int		render(t_game *game);
 void	raycast(t_game *game);
 //void	draw_pixel(t_mlx *mlx, int x, int y_start, int y_end, int color);
-void	put_pixel(t_mlx *mlx, int x, int y, int color);
+void	put_pixel(t_mlx *mlx, int x, int y, unsigned int color);
 
 /*
 		// RAYS //
@@ -173,8 +173,12 @@ void	calculate_perp_wall_dist(t_ray *ray, t_game *game);
 void draw_wall(t_ray *ray, t_game *game, int x);
 void draw_vertical_line(t_mlx *mlx, int x, int start, int end, int color);
 void	draw_textured_wall(t_game *game, t_ray *ray, int x, int start, int end);
-void	setup_texture_mapping(t_game  *game, t_ray *ray, int start, int end);
-
+static inline t_textures *pick_wall_texture(t_game *g, t_ray *r);
+static inline unsigned int get_tex_safe(t_textures *tx, int x, int y);
+int	get_pixel_color(t_textures *tex, int x, int y);
+static inline void	mlx_pixel_put_img(t_mlx *mlx, int x, int y, unsigned int color);
+double	impact_wall_x(t_ray *ray, t_game *game, int ray_side);
+int	x_in_texture(t_ray *ray, double wall_x, t_textures *tex);
 /*
 		//MOVEMENT//
 */
@@ -184,10 +188,10 @@ void	move_backward(t_game *game);
 void	move_left(t_game *game);
 void	move_right(t_game *game);
 void	rotate(t_game *game);
-
 /*
 		//TEXTURES//
 */
-int	get_texture_index(t_ray *ray);
-void	load_texture(t_game *game);
+//int		get_texture_index(t_ray *ray);
+int	load_all_textures(t_game *game);
+int	load_texture(t_mlx *mlx, t_textures *tex, char *path);
 #endif
