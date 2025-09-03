@@ -92,7 +92,6 @@ int	main(int argc, char const *argv[])
 		printf("%3d: %s\n", y, game.map.grid[y] ? game.map.grid[y] : "(null)");
 	}
 	printf("--- END DUMP ---\n");
-	load_texture(&game);
 	run_mlx(&mlx, &game);
 	destroy(game.mlx);
 	free_allocator(&allocator);
