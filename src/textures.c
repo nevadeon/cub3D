@@ -2,11 +2,6 @@
 
 int	load_all_textures(t_game *game)
 {
-	game->map.tex_no = "./textures/no.xpm";
-	game->map.tex_so = "./textures/so.xpm";
- 	game->map.tex_ea = "./textures/ea.xpm";
- 	game->map.tex_we = "./textures/we.xpm";
-
 	if (load_texture(game->mlx, &game->tex[TEXTURE_NORTH], game->map.tex_no))
 		return (EXIT_FAILURE);
 	if (load_texture(game->mlx, &game->tex[TEXTURE_SOUTH], game->map.tex_so))

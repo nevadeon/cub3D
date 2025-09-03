@@ -9,7 +9,7 @@ static bool	parse_map_line(t_alloc *alloc, t_game *g, char *line)
 	int		len;
 	int		new_h;
 
-	len = (int)str_clen(line, '\n', RETURN_FAILURE);
+	len = (int)str_clen(line, '\n', false);
 	copy = str_extract(alloc, line, 0, (size_t)len);
 	if (!copy)
 		return (RETURN_FAILURE);
@@ -28,32 +28,36 @@ static bool	parse_map_line(t_alloc *alloc, t_game *g, char *line)
 	return (RETURN_SUCCESS);
 }
 
-bool	trim_path(const char *src, char **dst)
+bool	trim_path(t_alloc *alloc, const char *src, char **dst)
 {
 	int	i;
+	int len;
 
 	if (*dst)
 		return (error_push_code(ERR_DUP_IDENTIFIER));
 	i = skip_spaces(src);
 	if (src[i] == '\0')
 		return (RETURN_FAILURE);
-	*dst = (char *)&src[i];
-	return (RETURN_SUCCESS);
+    len = 0;
+    while (src[i + len] && src[i + len] != '\n' && !is_space(src[i + len]))
+        len++;
+    *dst = str_extract(alloc, (char *)src, i, len);
+    return (*dst != NULL);
 }
 
-bool	parse_header_line(t_game *g, char *line)
+bool	parse_header_line(t_alloc *alloc, t_game *g, char *line)
 {
 	int		i;
 
 	i = skip_spaces(line);
 	if (line[i] == 'N' && line[i + 1] == 'O' && is_space(line[i + 2]))
-		return (trim_path(&line[i + 2], &g->map.tex_no));
+		return (trim_path(alloc, &line[i + 2], &g->map.tex_no));
 	if (line[i] == 'S' && line[i + 1] == 'O' && is_space(line[i + 2]))
-		return (trim_path(&line[i + 2], &g->map.tex_so));
+		return (trim_path(alloc, &line[i + 2], &g->map.tex_so));
 	if (line[i] == 'W' && line[i + 1] == 'E' && is_space(line[i + 2]))
-		return (trim_path(&line[i + 2], &g->map.tex_we));
+		return (trim_path(alloc, &line[i + 2], &g->map.tex_we));
 	if (line[i] == 'E' && line[i + 1] == 'A' && is_space(line[i + 2]))
-		return (trim_path(&line[i + 2], &g->map.tex_ea));
+		return (trim_path(alloc, &line[i + 2], &g->map.tex_ea));
 	if (line[i] == 'F' && is_space(line[i + 1]))
 		return (parse_rgb_triplet(&line[i + 1], &g->map.floor_rgb));
 	if (line[i] == 'C' && is_space(line[i + 1]))
@@ -93,7 +97,7 @@ bool	parse_lines(t_alloc *alloc, t_game *game, int fd)
 				continue ;
 			if (is_header_prefix(line))
 			{
-				if (!parse_header_line(game, line))
+				if (!parse_header_line(alloc, game, line))
 					return (RETURN_FAILURE);
 				continue ;
 			}
