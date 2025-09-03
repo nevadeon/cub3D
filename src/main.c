@@ -33,7 +33,7 @@ static void	init_game(t_game *game)
 
 int	error_cleanup(t_alloc **allocator)
 {
-	error_flush();
+	err_flush();
 	free_allocator(allocator);
 	return (EXIT_FAILURE);
 }
@@ -56,6 +56,8 @@ int	main(int argc, char const *argv[])
 		return (error_cleanup(&allocator));
 	if (!init_mlx(&game, &mlx))
 		return (error_cleanup(&allocator));
+	if (!load_all_textures(&game))
+		return (destroy(game.mlx), error_cleanup(&allocator));
 
 	// init_data() need
 	//{

@@ -190,7 +190,8 @@ void	rotate(t_game *game);
 /*
 		//TEXTURES//
 */
-int	load_all_textures(t_game *game);
-int	load_texture(t_mlx *mlx, t_textures *tex, char *path);
 void	free_textures(t_game *game);
+//int		get_texture_index(t_ray *ray);
+bool	load_all_textures(t_game *game);
+
 #endif

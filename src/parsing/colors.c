@@ -13,7 +13,7 @@ static bool	read_uint_255(const char *s, int *i, int *v)
 	{
 		acc = acc * 10 + (s[*i] - '0');
 		if (acc > 255)
-			return (error_push_code(ERR_RGB_OVERFLOW));
+			return (err_code(ERR_RGB_OVERFLOW));
 		(*i)++;
 	}
 	*v = acc;
@@ -32,7 +32,7 @@ static bool	skip_comma_spaces(const char *s, int *i)
 static bool	parse_component(const char *s, int *i, int *v)
 {
 	if (s[*i] == '-')
-		return (error_push_code(ERR_RGB_NEGATIVE));
+		return (err_code(ERR_RGB_NEGATIVE));
 	if (!read_uint_255(s, i, v))
 		return (RETURN_FAILURE);
 	*i += skip_spaces(&s[*i]);
@@ -46,7 +46,7 @@ bool	parse_rgb_triplet(const char *s, int *out)
 	int	vi;
 
 	if (*out != -1)
-		return (error_push_code(ERR_DUP_IDENTIFIER));
+		return (err_code(ERR_DUP_IDENTIFIER));
 	i = skip_spaces(s);
 	vi = 0;
 	while (vi < 3)
@@ -58,7 +58,7 @@ bool	parse_rgb_triplet(const char *s, int *out)
 	}
 	i += skip_spaces(&s[i]);
 	if (s[i] && s[i] != '\n')
-		return (error_push_code(ERR_RGB_TRAILING));
+		return (err_code(ERR_RGB_TRAILING));
 	*out = (vals[0] << 16) | (vals[1] << 8) | vals[2];
 	return (RETURN_SUCCESS);
 }

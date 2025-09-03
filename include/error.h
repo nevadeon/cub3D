@@ -26,9 +26,9 @@ typedef enum e_err
 	ERR_UNKNOWN,
 }	t_err;
 
-void	error_flush(void);
-bool	error_push_code(t_err code);
-bool	error_push_str(const char *str);
-bool	error_push_errno(void);
+void	err_flush(void);
+bool	err_code(t_err code);
+bool	err_str(const char *str);
+bool	err_errno(void);
 
 #endif
