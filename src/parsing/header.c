@@ -34,7 +34,7 @@ bool	trim_path(t_alloc *alloc, const char *src, char **dst)
 	int len;
 
 	if (*dst)
-		return (error_push_code(ERR_DUP_IDENTIFIER));
+		return (err_code(ERR_DUP_IDENTIFIER));
 	i = skip_spaces(src);
 	if (src[i] == '\0')
 		return (RETURN_FAILURE);

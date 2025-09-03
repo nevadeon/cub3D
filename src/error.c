@@ -28,7 +28,7 @@ static const char	*g_error_strings[] = {
 	[ERR_UNKNOWN] = "Unknown error",
 };
 
-void	error_flush(void)
+void	err_flush(void)
 {
 	int		i;
 
@@ -47,7 +47,7 @@ void	error_flush(void)
 	g_error_count = 0;
 }
 
-bool	error_push_code(t_err code)
+bool	err_code(t_err code)
 {
 	assert(g_error_count < ERROR_STACK_MAX);
 	assert(code > 0 && code < ERR_UNKNOWN);
@@ -55,14 +55,14 @@ bool	error_push_code(t_err code)
 	return (false);
 }
 
-bool	error_push_str(const char *str)
+bool	err_str(const char *str)
 {
 	assert(g_error_count < ERROR_STACK_MAX);
 	g_error_stack[g_error_count++] = str;
 	return (false);
 }
 
-bool	error_push_errno(void)
+bool	err_errno(void)
 {
 	assert(g_error_count < ERROR_STACK_MAX);
 	g_error_stack[g_error_count++] = strerror(errno);
