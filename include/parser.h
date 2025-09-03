@@ -18,7 +18,7 @@ bool	validate_identifiers(const t_game *c);
 bool	parse_rgb_triplet(const char *s, int *out);
 
 /* header parsing */
-bool	parse_header_line(t_game *out, char *line);
+bool	parse_header_line(t_alloc *alloc, t_game *out, char *line);
 
 /* map */
 bool	scan_player_and_chars(t_game *c);
