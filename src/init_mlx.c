@@ -4,9 +4,8 @@ int	key_press(int key, t_game *game)
 {
 	if (key == XK_Escape)
 	{
-		destroy(game->mlx);
-		//cleanup(game);
-		exit(EXIT_SUCCESS);
+		mlx_loop_end(game->mlx->mlx_init);
+		return (0);
 	}
 	if (key == XK_w)
 		game->keys.w = 1;
@@ -68,7 +67,7 @@ bool init_mlx(t_game *game, t_mlx *mlx)
 void	run_mlx(t_mlx *mlx, t_game *game)
 {
 	mlx_hook(mlx->mlx_win, DestroyNotify, StructureNotifyMask, cross_escape, mlx);
-	mlx_hook(mlx->mlx_win, KeyPress, KeyPressMask, key_press, game);
+	mlx_hook(game->mlx->mlx_win, 2, 1L<<0, key_press, game);
 	mlx_hook(mlx->mlx_win, KeyRelease, KeyReleaseMask, key_release, game);
 	if (load_all_textures(game))
 	{
