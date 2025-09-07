@@ -2,27 +2,29 @@
 
 void	init_step(t_ray *ray, t_game *game)
 {
-	if (ray->dirX < 0)
+	if (ray->dir_x < 0)
 	{
-		ray->stepX = -1;
-		ray->sideDistX = (game->player.posX - ray->mapX) * ray->deltaDistX;
+		ray->step_x = -1;
+		ray->side_dist_x = (game->player.pos_x - ray->map_x)
+			* ray->delta_dist_x;
 	}
 	else
 	{
-		ray->stepX = 1;
-		ray->sideDistX = (ray->mapX + 1.0 - game->player.posX)
-			* ray->deltaDistX;
+		ray->step_x = 1;
+		ray->side_dist_x = (ray->map_x + 1.0 - game->player.pos_x)
+			* ray->delta_dist_x;
 	}
-	if (ray->dirY < 0)
+	if (ray->dir_y < 0)
 	{
-		ray->stepY = -1;
-		ray->sideDistY = (game->player.posY - ray->mapY) * ray->deltaDistY;
+		ray->step_y = -1;
+		ray->side_dist_y = (game->player.pos_y - ray->map_y)
+			* ray->delta_dist_y;
 	}
 	else
 	{
-		ray->stepY = 1;
-		ray->sideDistY = (ray->mapY + 1.0 - game->player.posY)
-			* ray->deltaDistY;
+		ray->step_y = 1;
+		ray->side_dist_y = (ray->map_y + 1.0 - game->player.pos_y)
+			* ray->delta_dist_y;
 	}
 }
 
@@ -33,23 +35,22 @@ void	dda_algorithm(t_game *game, t_ray *ray)
 	hit = 0;
 	while (hit == 0)
 	{
-		if (ray->sideDistX < ray->sideDistY)
+		if (ray->side_dist_x < ray->side_dist_y)
 		{
-			ray->sideDistX += ray->deltaDistX;
-			ray->mapX += ray->stepX;
+			ray->side_dist_x += ray->delta_dist_x;
+			ray->map_x += ray->step_x;
 			ray->side = 0;
 		}
 		else
 		{
-			ray->sideDistY += ray->deltaDistY;
-			ray->mapY += ray->stepY;
+			ray->side_dist_y += ray->delta_dist_y;
+			ray->map_y += ray->step_y;
 			ray->side = 1;
 		}
-		// sécurité : éviter un segfault si on sort de la map
-		if (ray->mapX < 0 || ray->mapY < 0
-			|| ray->mapY >= game->map.height || ray->mapX >= game->map.width)
+		if (ray->map_x < 0 || ray->map_y < 0
+			|| ray->map_y >= game->map.height || ray->map_x >= game->map.width)
 			break ;
-		if (game->map.grid[ray->mapY][ray->mapX] == '1')
+		if (game->map.grid[ray->map_y][ray->map_x] == '1')
 			hit = 1;
 	}
 }
@@ -57,9 +58,9 @@ void	dda_algorithm(t_game *game, t_ray *ray)
 void	calculate_perp_wall_dist(t_ray *ray, t_game *game)
 {
 	if (ray->side == 0)
-		ray->perpWallDist = ((ray->mapX - game->player.posX
-					+ (1 - ray->stepX) / 2) / ray->dirX);
+		ray->perp_wall_dist = ((ray->map_x - game->player.pos_x
+					+ (1 - ray->step_x) / 2) / ray->dir_x);
 	else
-		ray->perpWallDist = ((ray->mapY - game->player.posY
-					+ (1 - ray->stepY) / 2) / ray->dirY);
+		ray->perp_wall_dist = ((ray->map_y - game->player.pos_y
+					+ (1 - ray->step_y) / 2) / ray->dir_y);
 }

@@ -2,7 +2,6 @@
 # define CUB3D_H
 
 # include "mlx.h"
-//#include "libft/libft.h"
 # include <stdarg.h>
 # include <X11/X.h>
 # include <X11/keysym.h>
@@ -29,7 +28,6 @@
 # define WIDTH			1500
 # define HEIGHT			900
 # define TILE_SIZE		64
-//# define PLANE_Y		0.90 // FOV ~ 66°
 
 # define TEXTURE_NORTH	0
 # define TEXTURE_SOUTH	1
@@ -41,53 +39,60 @@
 
 typedef struct s_mlx
 {
-	void	*mlx_init; //--> ptr vers mlx_init()
-	void	*mlx_win; //--> fenetre
-	void	*img_ptr; //--> img buffer
-	void	*addr; //-->acces au pixels
-	int		img_bpp; // bits pr pixel
-	int		line_len; //long d'une ligne en memoire
+	void	*mlx_init;
+	void	*mlx_win;
+	void	*img_ptr;
+	void	*addr;
+	int		img_bpp;
+	int		line_len;
 	int		endian;
 }	t_mlx;
 
 typedef struct s_keys
 {
-	int right; //--> rotate right
-	int left; // --> rotate left
-	int w; // --> move forward
-	int s; // --> move backward
-	int a; // --> left
-	int d; // --> right
+	int	right;
+	int	left;
+	int	w;
+	int	s;
+	int	a;
+	int	d;
 }	t_keys;
 
 typedef struct s_player
 {
-	double	posX;
-	double	posY;
-	double	dirX;
-	double	dirY;
-	double	planeX;
-	double	planeY;
+	double	pos_x;
+	double	pos_y;
+	double	dir_x;
+	double	dir_y;
+	double	plane_x;
+	double	plane_y;
 }	t_player;
-
-// planeX planeY define the 2D plane perpendicular to the player view direction
-// determine : FOV, projection of 3D walls
 
 typedef struct s_ray
 {
-	float	perpWallDist;
-	int		mapX;
-	int		mapY;
+	float	perp_wall_dist;
+	int		map_x;
+	int		map_y;
 	int		side;
-	float	dirX;
-	float	dirY;
-	float	stepX;
-	float	stepY;
-	float	sideDistX;
-	float	sideDistY;
-	float	deltaDistX;
-	float	deltaDistY;
+	float	dir_x;
+	float	dir_y;
+	float	step_x;
+	float	step_y;
+	float	side_dist_x;
+	float	side_dist_y;
+	float	delta_dist_x;
+	float	delta_dist_y;
 }	t_ray;
+
+typedef struct s_draw
+{
+	int		x;
+	int		start;
+	int		end;
+	int		tex_x;
+	double	step;
+	double	tex_pos;
+}	t_draw;
 
 typedef struct s_texture
 {
@@ -169,15 +174,21 @@ void	calculate_perp_wall_dist(t_ray *ray, t_game *game);
 /*
 		// DRAW //
 */
-void draw_wall(t_ray *ray, t_game *game, int x);
-void draw_vertical_line(t_mlx *mlx, int x, int start, int end, int color);
-void	draw_textured_wall(t_game *game, t_ray *ray, int x, int start, int end);
-static inline t_textures *pick_wall_texture(t_game *g, t_ray *r);
-static inline unsigned int get_tex_safe(t_textures *tx, int x, int y);
-int	get_pixel_color(t_textures *tex, int x, int y);
-static inline void	mlx_pixel_put_img(t_mlx *mlx, int x, int y, unsigned int color);
+void	draw_wall(t_ray *ray, t_game *game, int x);
+void	draw_ceil(t_mlx *mlx, t_draw draw, int color);
+void	draw_floor(t_mlx *mlx, t_draw draw, int color);
+void	draw_wall_stripe(t_game *game, t_textures *tex, t_draw draw);
+void	draw_textured_wall(t_game *game, t_ray *ray, t_draw draw);
+
+t_textures	*pick_wall_texture(t_game *g, t_ray *r);
+unsigned int				get_tex_safe(t_textures *tx, int x, int y);
+
+int		get_pixel_color(t_textures *tex, int x, int y);
+void	mlx_pixel_put_img(t_mlx *mlx, int x, int y, unsigned int color);
 double	impact_wall_x(t_ray *ray, t_game *game, int ray_side);
-int	x_in_texture(t_ray *ray, double wall_x, t_textures *tex);
+int		x_in_texture(t_ray *ray, double wall_x, t_textures *tex);
+double	calc_tex_pos(int start, t_ray *ray, double step);
+double	calc_tex_step(t_ray *ray, t_textures *tex);
 /*
 		//MOVEMENT//
 */
@@ -191,7 +202,6 @@ void	rotate(t_game *game);
 		//TEXTURES//
 */
 void	free_textures(t_game *game);
-//int		get_texture_index(t_ray *ray);
 bool	load_all_textures(t_game *game);
 
 #endif

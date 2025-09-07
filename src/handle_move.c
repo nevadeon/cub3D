@@ -13,10 +13,4 @@ void	handle_move(t_game *game)
 		move_right(game);
 	else if (game->keys.left || game->keys.right)
 		rotate(game);
-	// dprintf(2, "dirx = %f | dirY = %f\n", game->player.dirX, game->player.dirY);
 }
-
-// nord x 0 y -2
-// sud  x 0 y 2
-// ouest x -2 y 0
-// est  x 2 y 0

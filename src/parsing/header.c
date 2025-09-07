@@ -31,18 +31,18 @@ static bool	parse_map_line(t_alloc *alloc, t_game *g, char *line)
 bool	trim_path(t_alloc *alloc, const char *src, char **dst)
 {
 	int	i;
-	int len;
+	int	len;
 
 	if (*dst)
 		return (err_code(ERR_DUP_IDENTIFIER));
 	i = skip_spaces(src);
 	if (src[i] == '\0')
 		return (RETURN_FAILURE);
-    len = 0;
-    while (src[i + len] && src[i + len] != '\n' && !is_space(src[i + len]))
-        len++;
-    *dst = str_extract(alloc, (char *)src, i, len);
-    return (*dst != NULL);
+	len = 0;
+	while (src[i + len] && src[i + len] != '\n' && !is_space(src[i + len]))
+		len++;
+	*dst = str_extract(alloc, (char *)src, i, len);
+	return (*dst != NULL);
 }
 
 bool	parse_header_line(t_alloc *alloc, t_game *g, char *line)

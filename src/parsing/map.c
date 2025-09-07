@@ -42,38 +42,26 @@ static bool	check_neighbors(t_game *g, int x, int y, int off[4][2])
 
 static bool	set_player(t_game *g, char ch, int x, int y)
 {
-	if (g->player.posX != 0)
+	if (g->player.pos_x != 0)
 		return (err_code(ERR_MULTIPLE_PLAYERS));
-	g->player.posX = x + 0.5;
-	g->player.posY = y + 0.5;
+	g->player.pos_x = x + 0.5;
+	g->player.pos_y = y + 0.5;
 	if (ch == 'N')
 	{
-		g->player.dirY = -1;
-		g->player.dirX = 0;
-		g->player.planeX = 0.66;
-		g->player.planeY = 0;
+		g->player.dir_y = -1;
+		g->player.dir_x = 0;
+		g->player.plane_x = 0.66;
+		g->player.plane_y = 0;
 	}
 	else if (ch == 'S')
 	{
-		g->player.dirY = 1;
-		g->player.dirX = 0;
-		g->player.planeX = -0.66;
-		g->player.planeY = 0;
+		g->player.dir_y = 1;
+		g->player.dir_x = 0;
+		g->player.plane_x = -0.66;
+		g->player.plane_y = 0;
 	}
-	else if (ch == 'W')
-	{
-		g->player.dirY = 0;
-		g->player.dirX = -1;
-		g->player.planeX = 0;
-		g->player.planeY = -0.66;
-	}
-	else if (ch == 'E')
-	{
-		g->player.dirY = 0;
-		g->player.dirX = 1;
-		g->player.planeX = 0;
-		g->player.planeY = 0.66;
-	}
+	else
+		set_player_w_e(g, ch);
 	g->map.grid[y][x] = '0';
 	return (RETURN_SUCCESS);
 }
@@ -102,7 +90,7 @@ bool	scan_player_and_chars(t_game *g)
 		}
 		y++;
 	}
-	if (g->player.posX == 0)
+	if (g->player.pos_x == 0)
 		return (err_code(ERR_NO_PLAYER));
 	return (RETURN_SUCCESS);
 }
