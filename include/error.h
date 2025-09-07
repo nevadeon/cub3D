@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   error.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nevadeon <github@glhf.slmail.me>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/07 17:48:52 by nevadeon          #+#    #+#             */
+/*   Updated: 2025/09/07 17:52:04 by nevadeon         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef ERROR_H
 # define ERROR_H
 
 # include <stdbool.h>
 
-#define ERROR_STACK_MAX 8
+# define ERROR_STACK_MAX	8
 
 typedef enum e_err
 {

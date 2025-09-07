@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3D.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nevadeon <github@glhf.slmail.me>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/07 17:48:52 by nevadeon          #+#    #+#             */
+/*   Updated: 2025/09/07 17:51:09 by nevadeon         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CUB3D_H
 # define CUB3D_H
 
@@ -134,74 +146,76 @@ typedef struct s_game
 	t_textures	tex[4];
 }	t_game;
 
-bool	parse_args(int argc, char const *argv[]);
-bool	parse_cub_file(t_alloc *alloc, t_game *out, const char *path);
+typedef unsigned int	t_uint;
+
+bool		parse_args(int argc, char const *argv[]);
+bool		parse_cub_file(t_alloc *alloc, t_game *out, const char *path);
 
 /*
         // INIT_MLX //
 */
-bool	init_mlx(t_game *game, t_mlx *mlx);
-void	run_mlx(t_mlx *mlx, t_game *game);
-void	destroy(t_mlx *mlx);
+bool		init_mlx(t_game *game, t_mlx *mlx);
+void		run_mlx(t_mlx *mlx, t_game *game);
+void		destroy(t_mlx *mlx);
 
-int		cross_escape(t_mlx *mlx);
-int		key_press(int key, t_game *game);
-int		key_release(int key, t_game *game);
+int			cross_escape(t_mlx *mlx);
+int			key_press(int key, t_game *game);
+int			key_release(int key, t_game *game);
 
 /*
         // RAYCASTING //
 */
-void	clear_image(t_mlx *mlx, int color);
-int		render(t_game *game);
-void	raycast(t_game *game);
-void	put_pixel(t_mlx *mlx, int x, int y, unsigned int color);
+void		clear_image(t_mlx *mlx, int color);
+int			render(t_game *game);
+void		raycast(t_game *game);
+void		put_pixel(t_mlx *mlx, int x, int y, unsigned int color);
 
 /*
 		// RAYS //
 */
 
-void	cast_all_rays(t_game *game);
-void	cast_ray(t_game *game, int x);
-void	init_ray(t_game *game, int x);
+void		cast_all_rays(t_game *game);
+void		cast_ray(t_game *game, int x);
+void		init_ray(t_game *game, int x);
 
 /*
 		// DDA //
 */
-void	init_step(t_ray *ray, t_game *game);
-void	dda_algorithm(t_game *game, t_ray *ray);
-void	calculate_perp_wall_dist(t_ray *ray, t_game *game);
+void		init_step(t_ray *ray, t_game *game);
+void		dda_algorithm(t_game *game, t_ray *ray);
+void		calculate_perp_wall_dist(t_ray *ray, t_game *game);
 
 /*
 		// DRAW //
 */
-void	draw_wall(t_ray *ray, t_game *game, int x);
-void	draw_ceil(t_mlx *mlx, t_draw draw, int color);
-void	draw_floor(t_mlx *mlx, t_draw draw, int color);
-void	draw_wall_stripe(t_game *game, t_textures *tex, t_draw draw);
-void	draw_textured_wall(t_game *game, t_ray *ray, t_draw draw);
+void		draw_wall(t_ray *ray, t_game *game, int x);
+void		draw_ceil(t_mlx *mlx, t_draw draw, int color);
+void		draw_floor(t_mlx *mlx, t_draw draw, int color);
+void		draw_wall_stripe(t_game *game, t_textures *tex, t_draw draw);
+void		draw_textured_wall(t_game *game, t_ray *ray, t_draw draw);
 
 t_textures	*pick_wall_texture(t_game *g, t_ray *r);
-unsigned int				get_tex_safe(t_textures *tx, int x, int y);
+t_uint		get_tex_safe(t_textures *tx, int x, int y);
 
-int		get_pixel_color(t_textures *tex, int x, int y);
-void	mlx_pixel_put_img(t_mlx *mlx, int x, int y, unsigned int color);
-double	impact_wall_x(t_ray *ray, t_game *game, int ray_side);
-int		x_in_texture(t_ray *ray, double wall_x, t_textures *tex);
-double	calc_tex_pos(int start, t_ray *ray, double step);
-double	calc_tex_step(t_ray *ray, t_textures *tex);
+int			get_pixel_color(t_textures *tex, int x, int y);
+void		mlx_pixel_put_img(t_mlx *mlx, int x, int y, unsigned int color);
+double		impact_wall_x(t_ray *ray, t_game *game, int ray_side);
+int			x_in_texture(t_ray *ray, double wall_x, t_textures *tex);
+double		calc_tex_pos(int start, t_ray *ray, double step);
+double		calc_tex_step(t_ray *ray, t_textures *tex);
 /*
 		//MOVEMENT//
 */
-void	handle_move(t_game *game);
-void	move_forward(t_game *game);
-void	move_backward(t_game *game);
-void	move_left(t_game *game);
-void	move_right(t_game *game);
-void	rotate(t_game *game);
+void		handle_move(t_game *game);
+void		move_forward(t_game *game);
+void		move_backward(t_game *game);
+void		move_left(t_game *game);
+void		move_right(t_game *game);
+void		rotate(t_game *game);
 /*
 		//TEXTURES//
 */
-void	free_textures(t_game *game);
-bool	load_all_textures(t_game *game);
+void		free_textures(t_game *game);
+bool		load_all_textures(t_game *game);
 
 #endif

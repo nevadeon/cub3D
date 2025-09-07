@@ -1,7 +1,7 @@
 NAME := cub3D
 
 CC := cc
-CFLAGS = -Wall -Wextra -I$(INC_PATH) -g
+CFLAGS = -Wall -Wextra -I$(INC_PATH) -g -Iminilibx-linux
 CFLAGS += $(foreach dir, $(shell find $(INC_PATH) -type d), -I$(PATH))
 LDFLAGS = -lXext -lX11 -lm -lz -I.
 GDB_FLAGS := --quiet --args

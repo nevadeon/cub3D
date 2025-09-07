@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nevadeon <github@glhf.slmail.me>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/07 17:48:52 by nevadeon          #+#    #+#             */
+/*   Updated: 2025/09/07 17:52:35 by nevadeon         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PARSER_H
 # define PARSER_H
 
-#include <stdbool.h>
+# include <stdbool.h>
 
-typedef struct s_game t_game;
-typedef struct s_allocator t_alloc;
+typedef struct s_game		t_game;
+typedef struct s_allocator	t_alloc;
 
 /* utils */
 int		skip_spaces(const char *s);

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   str_atoi.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nevadeon <github@glhf.slmail.me>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/07 17:45:46 by nevadeon          #+#    #+#             */
+/*   Updated: 2025/09/07 17:48:03 by nevadeon         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "tools/str.h"
 #include "tools/char.h"
 
@@ -20,5 +32,7 @@ int	str_atoi(const char *s)
 		result += s[index] - '0';
 		index++;
 	}
-	return (positive ? result : -result);
+	if (positive)
+		return (result);
+	return (-result);
 }
