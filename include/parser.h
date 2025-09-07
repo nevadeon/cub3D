@@ -23,6 +23,7 @@ bool	parse_header_line(t_alloc *alloc, t_game *out, char *line);
 /* map */
 bool	scan_player_and_chars(t_game *c);
 bool	validate_closed_map(t_game *c);
+void	set_player_w_e(t_game *g, char ch);
 
 /* reading */
 bool	parse_lines(t_alloc *a, t_game *out, int fd);

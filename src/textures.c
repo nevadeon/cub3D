@@ -27,12 +27,16 @@ bool	load_all_textures(t_game *game)
 
 void	free_textures(t_game *game)
 {
-	for (int i = 0; i < 4; i++)
+	int	i;
+
+	i = 0;
+	while (i < 4)
 	{
 		if (game->tex[i].img)
 		{
 			mlx_destroy_image(game->mlx->mlx_init, game->tex[i].img);
 			game->tex[i].img = NULL;
 		}
+		i++;
 	}
 }

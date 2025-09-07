@@ -5,7 +5,8 @@ int	render(t_game *game)
 	clear_image(game->mlx, 0x003366);
 	handle_move(game);
 	cast_all_rays(game);
-	mlx_put_image_to_window(game->mlx->mlx_init, game->mlx->mlx_win, game->mlx->img_ptr, 0,0);
+	mlx_put_image_to_window(game->mlx->mlx_init, game->mlx->mlx_win,
+		game->mlx->img_ptr, 0, 0);
 	return (0);
 }
 
@@ -22,7 +23,7 @@ void	clear_image(t_mlx *mlx, int color)
 		while (x < WIDTH)
 		{
 			dst = mlx->addr + (y * mlx->line_len + x * (mlx->img_bpp / 8));
-			*(unsigned int*)dst = color;
+			*(unsigned int *)dst = color;
 			x++;
 		}
 		y++;

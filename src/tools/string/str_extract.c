@@ -7,7 +7,7 @@ char	*str_extract(t_alloc *alloc, char *s, size_t start, size_t len)
 
 	ret = mem_alloc(alloc, len + 1);
 	if (!ret)
-		return NULL;
+		return (NULL);
 	ret = str_memcpy(ret, s + start, len);
 	ret[len] = '\0';
 	return (ret);

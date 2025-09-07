@@ -30,10 +30,10 @@ void	init_ray(t_game *game, int x)
 	double	camera_x;
 
 	camera_x = 2 * x / (double)WIDTH - 1;
-	game->ray.dirX = game->player.dirX + game->player.planeX * camera_x;
-	game->ray.dirY = game->player.dirY + game->player.planeY * camera_x;
-	game->ray.mapX = (int)game->player.posX;
-	game->ray.mapY = (int)game->player.posY;
-	game->ray.deltaDistX = fabs(1 / game->ray.dirX);
-	game->ray.deltaDistY = fabs(1 / game->ray.dirY);
+	game->ray.dir_x = game->player.dir_x + game->player.plane_x * camera_x;
+	game->ray.dir_y = game->player.dir_y + game->player.plane_y * camera_x;
+	game->ray.map_x = (int)game->player.pos_x;
+	game->ray.map_y = (int)game->player.pos_y;
+	game->ray.delta_dist_x = fabs(1 / game->ray.dir_x);
+	game->ray.delta_dist_y = fabs(1 / game->ray.dir_y);
 }
